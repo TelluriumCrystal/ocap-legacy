@@ -3,6 +3,7 @@
     ==========================================================================================
 
     Copyright (C) 2016 Jamie Goodson (aka MisterGoodson) (goodsonjamie@yahoo.co.uk)
+                  2020 Andrew Bennett (aka TelluriumCrystal) (admin@andrewbennet1.com)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
