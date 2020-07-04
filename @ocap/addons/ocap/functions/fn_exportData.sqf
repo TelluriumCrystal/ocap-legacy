@@ -1,5 +1,5 @@
 /*
-	Author: MisterGoodson
+	Author: MisterGoodson, TelluriumCrystal
 
 	Description:
 		Converts all capture data (events + entities) into a JSON format and outputs this string
@@ -55,9 +55,7 @@ _tankClasses = [
 ];
 
 // Write main header
-_header = format['{"worldName":"%1","missionName":"%2","missionAuthor":"%3","captureDelay":%4,"endFrame":%5
-',worldName, briefingName, getMissionConfigValue ["author", ""], ocap_frameCaptureDelay, ocap_endFrameNo];
-[_header, true] call ocap_fnc_callExtension;
+['', 0] call ocap_fnc_callExtension;
 
 // Write entities
 _jsonUnits = ',"entities":[';
@@ -127,7 +125,7 @@ _jsonUnits = ',"entities":[';
 		_jsonUnits = _jsonUnits + format['
 		{"startFrameNum":%1,"type":"vehicle","id":%2,"class":"%3","name":"%4"', _startFrameNo, _id, _class, _name];
 	};
-	[_jsonUnits, true] call ocap_fnc_callExtension;
+	[_jsonUnits, 1] call ocap_fnc_callExtension;
 	_jsonUnits = "";
 
 
@@ -154,8 +152,8 @@ _jsonUnits = ',"entities":[';
 
 		if (_forEachIndex != ((count _positions)-1)) then {_jsonUnitPosArr = _jsonUnitPosArr + ","};
 	} forEach _positions;
-	[_jsonUnitPosArr, true] call ocap_fnc_callExtension;
-	["]", true] call ocap_fnc_callExtension; // Add cap
+	[_jsonUnitPosArr, 1] call ocap_fnc_callExtension;
+	["]", 1] call ocap_fnc_callExtension; // Add cap
 
 
 	// Write frames unit fired
@@ -170,16 +168,16 @@ _jsonUnits = ',"entities":[';
 
 			if (_forEachIndex != ((count _framesFired)-1)) then {_jsonFramesFired = _jsonFramesFired + ","};
 		} forEach _framesFired;
-		[_jsonFramesFired, true] call ocap_fnc_callExtension;
-		["]", true] call ocap_fnc_callExtension; // Add cap
+		[_jsonFramesFired, 1] call ocap_fnc_callExtension;
+		["]", 1] call ocap_fnc_callExtension; // Add cap
 	};
 
 	_jsonUnitFooter = '}'; // End of this unit's JSON object
 	
 	if (_forEachIndex != ((count ocap_entitiesData)-1)) then {_jsonUnitFooter = _jsonUnitFooter + ","};
-	[_jsonUnitFooter, true] call ocap_fnc_callExtension;
+	[_jsonUnitFooter, 1] call ocap_fnc_callExtension;
 } forEach ocap_entitiesData;
-[']', true] call ocap_fnc_callExtension; // Add cap to entities array
+[']', 1] call ocap_fnc_callExtension; // Add cap to entities array
 
 
 // Write events
@@ -210,10 +208,10 @@ _jsonEvents = ',"events":[';
 
 	if (_forEachIndex != ((count ocap_eventsData)-1)) then {_jsonEvents = _jsonEvents + ","};
 } forEach ocap_eventsData;
-[_jsonEvents + "]", true] call ocap_fnc_callExtension;
+[_jsonEvents + "]", 1] call ocap_fnc_callExtension;
 
-['}', true] call ocap_fnc_callExtension; // End of JSON file
-['', false] call ocap_fnc_callExtension;
+['}', 1] call ocap_fnc_callExtension; // End of JSON file
+['', 2] call ocap_fnc_callExtension;
 
 _deltaT = diag_tickTime - _sT;
 [format["Exporting complete (%1ms).", _deltaT * 1000]] call ocap_fnc_log;

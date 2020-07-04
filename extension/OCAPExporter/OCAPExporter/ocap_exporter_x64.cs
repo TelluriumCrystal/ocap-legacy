@@ -98,8 +98,46 @@ namespace OCAPExporter
             // Remove arguments from function string
             function = function.Remove(0, index + 1);
 
+            // Write JSON header
+            if (option.Equals("head"))
+            {
+                string worldName = args[2];
+                string missionName = args[3];
+                string missionAuthor = args[4];
+                string missionDuration = args[5];
+                string captureDelay = args[6];
+                string endFrame = args[7];
+
+                DateTime now = DateTime.Now;
+                string missionDateTime = DateTime.Now.ToString("dd/MM/yyyy H:mm:ss");
+
+                // Create temp directory if not already exists
+                if (!Directory.Exists(tempDir))
+                {
+                    Log("Temp directory not found, creating...");
+                    Directory.CreateDirectory(tempDir);
+                    Log("Done.");
+                }
+
+                // Create file to write to (if not exists)
+                if (!File.Exists(captureFilepath))
+                {
+                    Log("Capture file not found, creating at " + captureFilepath + "...");
+                    File.Create(captureFilepath).Close();
+                    Log("Done.");
+                }
+
+                // Append to file
+                File.AppendAllText(captureFilepath, String.Format("{{\"worldName\":\"{0}\", \"missionName\":\"{1}\", \"missionAuthor\":\"{2}\", \"missionDuration\":\"{3}\", \"missionDate\":\"{4}\", \"captureDelay\":\"{5}\", \"endFrame\":\"{6}\"", 
+                    worldName, missionName, missionAuthor, missionDuration, missionDateTime, captureDelay, endFrame));
+                Log("Wrote head to capture file.");
+
+                // Send output to Arma
+                output.Append("Success");
+            }
+
             // Write string to JSON file
-            if (option.Equals("write"))
+            else if (option.Equals("write"))
             {
                 // Create temp directory if not already exists
                 if (!Directory.Exists(tempDir))
@@ -128,10 +166,7 @@ namespace OCAPExporter
             // Export JSON file to local server
             else if (option.Equals("transfer"))
             {
-                string worldName = args[2];
-                string missionName = args[3];
-                string missionDuration = args[4];
-                string webRoot = args[5];
+                string webRoot = args[2];
                 webRoot = AddMissingSlash(webRoot);
                 string transferFilepath = webRoot + "data/" + captureFilename;
 

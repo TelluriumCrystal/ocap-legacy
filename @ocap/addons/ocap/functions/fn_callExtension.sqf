@@ -11,27 +11,39 @@
 	The location to transfer to is defined in the userconfig settings.
 
 	Parameters:
-	_this select 0: STRING - Data to output to extension (e.g. JSON)
-	_this select 1: BOOLEAN - True for write mode, false for transfer mode.
+	_string: STRING - Data to output to extension (e.g. JSON)
+	_mode: INT - 0 to write JSON header, 1 to write passed string to JSON, 2 to transfer JSON to web host
 */
 
-_output = _this select 0;
-_write = _this select 1;
+params ["_string", "_mode"];
 
-if (_write) then {
-	// Write string to file
-	"ocap_exporter" callExtension format["{write;%1}%2", ocap_exportCapFilename, _output];
-} else {
-	_worldName = worldName;
-	_missionName = briefingName;
-	_missionDuration = ocap_endFrameNo * ocap_frameCaptureDelay; // Duration of mission (seconds)
-
-	// Transfer file to server
-	"ocap_exporter" callExtension format["{transfer;%1;%2;%3;%4;%5}",
-		ocap_exportCapFilename,
-		_worldName,
-		_missionName,
-		_missionDuration,
-		ocap_exportPath
-	];
+switch (_mode) do {
+    case 0: {
+		// Write header to file
+		_worldName = worldName;
+		_missionName = briefingName;
+		_missionAuthor = getMissionConfigValue ["author", ""];
+		_missionDuration = ocap_endFrameNo * ocap_frameCaptureDelay; // Duration of mission (seconds)
+		
+		"ocap_exporter" callExtension format["{head;%1;%2;%3;%4;%5;%6;%7}",
+			ocap_exportCapFilename,
+			_worldName,
+			_missionName,
+			_missionAuthor,
+			_missionDuration,
+			ocap_frameCaptureDelay,
+			ocap_endFrameNo
+		];
+	};
+    case 1: {
+		// Write string to file
+		"ocap_exporter" callExtension format["{write;%1}%2", ocap_exportCapFilename, _string];
+	};
+	case 2: {
+		// Transfer file to server
+		"ocap_exporter" callExtension format["{transfer;%1;%2}",
+			ocap_exportCapFilename,
+			ocap_exportPath
+		];
+	};
 };
