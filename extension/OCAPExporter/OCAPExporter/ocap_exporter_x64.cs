@@ -195,7 +195,7 @@ namespace OCAPExporter
 
         public static void Log(string str)
         {
-            File.AppendAllText(logfile, DateTime.Now.ToString("dd/MM/yyyy H:mm | ") + str + Environment.NewLine);
+            File.AppendAllText(logfile, DateTime.Now.ToString("dd/MM/yyyy H:mm:ss | ") + str + Environment.NewLine);
             Console.WriteLine(str);
         }
 
