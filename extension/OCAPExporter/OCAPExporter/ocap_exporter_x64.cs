@@ -115,50 +115,71 @@ namespace OCAPExporter
                 DateTime now = DateTime.Now;
                 string missionDateTime = DateTime.Now.ToString("dd/MM/yyyy H:mm:ss");
 
-                // Create temp directory if not already exists
-                if (!Directory.Exists(tempDir))
+                try
                 {
-                    Log("Temp directory not found, creating...");
-                    Directory.CreateDirectory(tempDir);
-                    Log("Done.");
-                }
+                    // Create temp directory if not already exists
+                    if (!Directory.Exists(tempDir))
+                    {
+                        Log("Temp directory not found, creating...");
+                        Directory.CreateDirectory(tempDir);
+                        Log("Done.");
+                    }
 
-                // Create file to write to (if not exists)
-                if (!File.Exists(captureFilepath))
+                    // Create file to write to (if not exists)
+                    if (File.Exists(captureFilepath))
+                    {
+                        Log("Capture file already exists! Did the exporter not finish successfully last time? Deleting and recreating file " + captureFilepath + "...");
+                        File.Delete(captureFilepath);
+                        File.Create(captureFilepath).Close();
+                        Log("Done.");
+                    }
+                    else
+                    {
+                        Log("Creating capture file at " + captureFilepath + "...");
+                        File.Create(captureFilepath).Close();
+                        Log("Done.");
+                    }
+
+                    // Append to file
+                    File.AppendAllText(captureFilepath, String.Format("{{\"worldName\":\"{0}\", \"missionName\":\"{1}\", \"missionAuthor\":\"{2}\", \"missionDuration\":\"{3}\", \"missionDate\":\"{4}\", \"captureDelay\":\"{5}\", \"endFrame\":\"{6}\"",
+                        worldName, missionName, missionAuthor, missionDuration, missionDateTime, captureDelay, endFrame));
+                    Log("Wrote head to capture file.");
+                }
+                catch (Exception e)
                 {
-                    Log("Capture file not found, creating at " + captureFilepath + "...");
-                    File.Create(captureFilepath).Close();
-                    Log("Done.");
+                    Log(e.ToString());
                 }
-
-                // Append to file
-                File.AppendAllText(captureFilepath, String.Format("{{\"worldName\":\"{0}\", \"missionName\":\"{1}\", \"missionAuthor\":\"{2}\", \"missionDuration\":\"{3}\", \"missionDate\":\"{4}\", \"captureDelay\":\"{5}\", \"endFrame\":\"{6}\"", 
-                    worldName, missionName, missionAuthor, missionDuration, missionDateTime, captureDelay, endFrame));
-                Log("Wrote head to capture file.");
             }
 
             // Write string to JSON file
             else if (option.Equals("write"))
             {
-                // Create temp directory if not already exists
-                if (!Directory.Exists(tempDir))
+                try
                 {
-                    Log("Temp directory not found, creating...");
-                    Directory.CreateDirectory(tempDir);
-                    Log("Done.");
-                }
+                    // Create temp directory if not already exists
+                    if (!Directory.Exists(tempDir))
+                    {
+                        Log("Temp directory not found, creating...");
+                        Directory.CreateDirectory(tempDir);
+                        Log("Done.");
+                    }
 
-                // Create file to write to (if not exists)
-                if (!File.Exists(captureFilepath))
+                    // Create file to write to (if not exists)
+                    if (!File.Exists(captureFilepath))
+                    {
+                        Log("Capture file not found! Did the exporter fail to create a header? Creating new (probably broken) file at " + captureFilepath + "...");
+                        File.Create(captureFilepath).Close();
+                        Log("Done.");
+                    }
+
+                    // Append to file
+                    File.AppendAllText(captureFilepath, function);
+                    Log("Appended capture data to capture file.");
+                }
+                catch (Exception e)
                 {
-                    Log("Capture file not found, creating at " + captureFilepath + "...");
-                    File.Create(captureFilepath).Close();
-                    Log("Done.");
+                    Log(e.ToString());
                 }
-
-                // Append to file
-                File.AppendAllText(captureFilepath, function);
-                Log("Appended capture data to capture file.");
             }
 
             // Export JSON file to local server
