@@ -6,8 +6,6 @@
 	Capture loop is automatically started once init complete.
 */
 
-//if (!isServer) exitWith {};
-
 // Define global vars
 #include "\userconfig\ocap\config.hpp";
 ocap_entitiesData = [];  // Data on all units + vehicles that appear throughout the mission.
