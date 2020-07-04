@@ -10,13 +10,5 @@
 /extension/**/obj/*
 /extension/*/.vs/*
 
-## WEB FILES ##
-/web/data/*
-!/web/data/*.php
-!/web/data/README
-/web/images/maps/*
-!/web/images/maps/README
-/web/info.php
-
 ## ADDON ##
 @ocap/addons/*.pbo
