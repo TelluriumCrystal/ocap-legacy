@@ -1,5 +1,5 @@
 /*
-	Author: MisterGoodson
+	Author: MisterGoodson, TelluriumCrystal
 
 	Description:
 	Initialises OCAP variables and mission-wide eventhandlers.

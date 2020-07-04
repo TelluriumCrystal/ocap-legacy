@@ -1,5 +1,5 @@
 /*
-	Author: MisterGoodson
+	Author: MisterGoodson, TelluriumCrystal
 
 	Description:
 	Calls extension (dll) and supplies given arguments.
