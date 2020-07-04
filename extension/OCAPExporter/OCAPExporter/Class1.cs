@@ -64,6 +64,7 @@ namespace OCAPExporter
         [DllExport("RVExtension", CallingConvention = System.Runtime.InteropServices.CallingConvention.Winapi)]
         public static void RVExtension(StringBuilder output, int outputSize, [MarshalAs(UnmanagedType.LPStr)] string function)
         {
+            // Not sure what this does but I'm afraid to touch it
             outputSize--;
 
             // Grab arguments from function string (arguments are wrapped in curly brackets).
@@ -99,7 +100,6 @@ namespace OCAPExporter
             string captureFilename = args[1];
             string tempDir = @"Temp\";
             string captureFilepath = tempDir + captureFilename; // Relative path where capture file will be written to
-            //string captureFilepath = System.AppDomain.CurrentDomain.BaseDirectory + @"tmp\" + captureFilename;
 
             // Remove arguments from function string
             function = function.Remove(0, index + 1);
