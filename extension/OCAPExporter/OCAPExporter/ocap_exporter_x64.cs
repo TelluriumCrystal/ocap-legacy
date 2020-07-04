@@ -22,22 +22,29 @@
 
  * Exports supplied capture JSON string into a JSON file.
  * JSON string can (and should) be supplied in multiple separate calls to this extension (as to avoid the Arma buffer limit).
- * This extension also handles transferring of JSON file to either a local or remote (via FTP) location.
+ * This extension also handles transferring of JSON file to a local location.
  * 
- * Extension argument string can be 1 of 2 forms.
+ * Extension argument string can be 1 of 3 forms.
  * f1:
- *     {"write";arg1,json_string_part}
- *     "write" = Tells the extension to write json_string_part to a file (in /tmp)
- *     arg1 = Json filename to write/append to /tmp (e.g. "myfile.json")
- *     json_string_part = Partial json string to be written to a file.
+ *     {"head";arg1,arg2,arg3,arg4;arg5;arg6;arg7}
+ *     "head" = Tells the extension to write the JSON header
+ *     arg1   = Filename to write/append to /tmp (e.g. "myfile.json")
+ *     arg2   = Name of the map
+ *     arg3   = Name of the mission
+ *     arg4   = Name of the mission author
+ *     arg5   = Duration of the mission
+ *     arg6   = Frame capture delay
+ *     arg7   = End frame number
  * f2:
- *     {"transfer";arg1;arg2;arg3;arg4;arg5}
+ *     {"write";arg1}string
+ *     "write" = Tells the extension to write json_string_part to a file (in /tmp)
+ *     arg1    = Filename to write/append to /tmp (e.g. "myfile.json")
+ *     string  = Partial json string to be written to the file
+ * f3:
+ *     {"transfer";arg1;arg2}
  *     "transfer" = Tells the extension we wish to transfer the json file to a local directory
- *     arg1 = Json filename to move from /tmp (e.g. "myfile.json")
- *     arg2 = World name
- *     arg3 = Mission name
- *     arg4 = Mission duration (seconds)
- *     arg5 = Absolute path to directory where JSON file should be moved to
+ *     arg1       = Filename to move from /tmp (e.g. "myfile.json")
+ *     arg2       = Absolute path to directory where JSON file should be moved to
  */
 
 using RGiesecke.DllExport;
