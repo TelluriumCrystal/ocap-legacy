@@ -66,8 +66,6 @@ addMissionEventHandler["PlayerConnected", {
 }];
 
 if (ocap_endCaptureOnEndMission) then {
-	// Currently broken due to Arma bug
-	// https://feedback.bistudio.com/T120253
 	addMissionEventHandler ["Ended", {
 		["Mission ended."] call ocap_fnc_log;
 		[] call ocap_fnc_exportData;
