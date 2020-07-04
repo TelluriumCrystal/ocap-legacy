@@ -34,7 +34,7 @@ _isKindOf = {
 
 ocap_capture = false; // Stop capture while we export
 ocap_endFrameNo = ocap_captureFrameNo;
-ocap_exportCapFilename = format["%1_%2.json", missionName, floor(random(1000))]; // Filename used for capture data file
+ocap_exportCapFilename = format["%1.json", missionName]; // Filename used for capture data file
 
 _br = toString [13, 10];
 _tab = toString[9];

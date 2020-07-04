@@ -170,6 +170,23 @@ namespace OCAPExporter
 
                 try
                 {
+                    // Check if JSON file with same name already exists
+                    if (File.Exists(transferFilepath))
+                    {
+                        Log(transferFilepath + " already exists!");
+                        // Strip suffix off filepath so we can add an increment to the name 
+                        string transferFilename = Path.GetFileNameWithoutExtension(transferFilepath);
+
+                        // Keep incrementing a suffix number until an unused filename is found
+                        int suffix = 0;
+                        do
+                        {
+                            suffix++;
+                            transferFilepath = webRoot + "data/" + transferFilename + "_" + suffix + ".json";
+                        } while (File.Exists(transferFilepath));
+                        Log("Will rename the JSON to " + Path.GetFileName(transferFilepath));
+                    }
+
                     // Move JSON file from /Temp to transferPath
                     Log("Moving " + captureFilename + " to " + transferFilepath + "...");
                     File.Move(captureFilepath, transferFilepath);
