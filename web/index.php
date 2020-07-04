@@ -1,56 +1,7 @@
 <?php
 include "common.php";
-$dbPath = "data/data.db";
-
-// Check if database exists
-if (!file_exists($dbPath)) {
-	echo "
-	<div style='font-family: Arial, sans-serif;'>
-		<b>Error:</b> Database not found. Please ensure you have ran the <a href='install/'>installer</a> first.
-	</div>
-	";
-	exit();
-};
-
-// Get server's id from local DB
-$db = new PDO('sqlite:' . $dbPath);
-$result = $db->query("SELECT remote_id FROM servers");
-$row = $result->fetchObject();
-$id = $row->remote_id; // Used later when contacting stats server
-print_debug("ID: " . $id);
-
-// Increment view count in local DB
-$db->exec(sprintf("UPDATE servers SET view_count = view_count + 1 WHERE remote_id = %d", $id)); 
-
-// Get list of operations from DB
-$result = $db->query("SELECT * FROM operations");
-$ops = array();
-foreach($result as $row) {
-	$ops[] = $row;
-}
-
-// Close DB
-$db = NULL;
 
 
-// Contact stats server to increment view count
-// Please do not modify this as these stats help me get a job. Thank-you! :)
-$result = curlRemote("stats-manager.php", array(
-	"option" => "increment_view_count",
-	"server_id" => $id
-));
-print_debug("Result: " . $result);
-
-// Check remote server for any urgent messages
-$result = curlRemote("stats-manager.php", array(
-	"option" => "get_urgent_message",
-	"version" => VERSION
-));
-
-if ($result != "") {
-	echo sprintf("<script>alert(\"%s\")</script>", $result);
-	print_debug($result);
-}
 ?>
 <!DOCTYPE html>
 <html>
