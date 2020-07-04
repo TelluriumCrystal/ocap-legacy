@@ -7,7 +7,7 @@ ocap_capture = true;
 
 ocap_exportPath = "C:/apache/htdocs/ocap/"; // Absolute path to OCAP web server root directory (e.g. "C:/apache/htdocs/ocap/")
 
-ocap_frameCaptureDelay = 1; // Delay between each frame capture. Default: 1
+ocap_frameCaptureDelay = 1; // Delay between each frame capture. Each frame is roughly 1 second long.
 ocap_minPlayerCount = 1;    // Minimum player count before capture begins. Set this to 0 for immediate capture (assuming ocap_endCaptureOnNoPlayers = false)
 
 ocap_endCaptureOnNoPlayers = true;   // End (and export) capture once players are no longer present
