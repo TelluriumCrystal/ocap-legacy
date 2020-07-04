@@ -65,9 +65,6 @@ namespace OCAPExporter
         [DllExport("RVExtension", CallingConvention = System.Runtime.InteropServices.CallingConvention.Winapi)]
         public static void RVExtension(StringBuilder output, int outputSize, [MarshalAs(UnmanagedType.LPStr)] string function)
         {
-            // Not sure what this does but I'm afraid to touch it
-            outputSize--;
-
             // Grab arguments from function string (arguments are wrapped in curly brackets).
             // e.g. {arg1;arg2;arg3}restOfFunctionString
             char c = new char();
@@ -138,9 +135,6 @@ namespace OCAPExporter
                 File.AppendAllText(captureFilepath, String.Format("{{\"worldName\":\"{0}\", \"missionName\":\"{1}\", \"missionAuthor\":\"{2}\", \"missionDuration\":\"{3}\", \"missionDate\":\"{4}\", \"captureDelay\":\"{5}\", \"endFrame\":\"{6}\"", 
                     worldName, missionName, missionAuthor, missionDuration, missionDateTime, captureDelay, endFrame));
                 Log("Wrote head to capture file.");
-
-                // Send output to Arma
-                output.Append("Success");
             }
 
             // Write string to JSON file
@@ -165,9 +159,6 @@ namespace OCAPExporter
                 // Append to file
                 File.AppendAllText(captureFilepath, function);
                 Log("Appended capture data to capture file.");
-
-                // Send output to Arma
-                output.Append("Success");
             }
 
             // Export JSON file to local server
@@ -193,18 +184,12 @@ namespace OCAPExporter
                 {
                     Log(e.ToString());
                 }
-
-                // Send output to Arma
-                output.Append("Success");
             }
 
             // Unknown option passed to .dll
             else
             {
                 Log("Unknown option passed from fn_callExtension!");
-
-                // Send output to Arma
-                output.Append("Failed");
             }
         }
 
