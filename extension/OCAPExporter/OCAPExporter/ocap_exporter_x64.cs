@@ -137,9 +137,14 @@ namespace OCAPExporter
 
                 try
                 {
-                    // Move JSON file from /tmp to transferPath
+                    // Move JSON file from /Temp to transferPath
                     Log("Moving " + captureFilename + " to " + transferFilepath + "...");
                     File.Move(captureFilepath, transferFilepath);
+                    Log("Done");
+
+                    // Delete original JSON from /Temp
+                    Log("Deleting " + captureFilename + " from \\Temp...");
+                    File.Delete(captureFilepath);
                     Log("Done");
                 }
                 catch (Exception e)
