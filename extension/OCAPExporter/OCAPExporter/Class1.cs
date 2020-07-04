@@ -23,25 +23,20 @@
  * JSON string can (and should) be supplied in multiple separate calls to this extension (as to avoid the Arma buffer limit).
  * This extension also handles transferring of JSON file to either a local or remote (via FTP) location.
  * 
- * Extension argument string can be 1 of 3 forms.
+ * Extension argument string can be 1 of 2 forms.
  * f1:
- *     {write;arg1}json_string_part
+ *     {"write";arg1,json_string_part}
  *     "write" = Tells the extension to write json_string_part to a file (in /tmp)
  *     arg1 = Json filename to write/append to /tmp (e.g. "myfile.json")
  *     json_string_part = Partial json string to be written to a file.
  * f2:
- *     {transferLocal;arg1;arg2;arg3;arg4;arg5;arg6}
- *     "transferLocal" = Tells the extension we wish to transfer the json file to a local directory
+ *     {"transfer";arg1;arg2;arg3;arg4;arg5}
+ *     "transfer" = Tells the extension we wish to transfer the json file to a local directory
  *     arg1 = Json filename to move from /tmp (e.g. "myfile.json")
  *     arg2 = World name
  *     arg3 = Mission name
  *     arg4 = Mission duration (seconds)
- *     arg5 = URL to web directory where OCAP is hosted
- *     arg6 = Absolute path to directory where JSON file should be moved to
- * f3:
- *     {transferRemote;arg1;arg2;arg3;arg4;arg5}
- *     "transferRemote" = Tells the extension we wish to transfer the json file to a remote server (via POST)
- *     arg1 to arg5 = Same as f2
+ *     arg5 = Absolute path to directory where JSON file should be moved to
  */
 
 using RGiesecke.DllExport;
@@ -127,89 +122,44 @@ namespace OCAPExporter
                 File.AppendAllText(captureFilepath, function);
                 Log("Appended capture data to capture file.");
 
-            } else {
+                // Send output to Arma
+                output.Append("Success");
+            }
+
+            // Export JSON file to local server
+            else if (option.Equals("transfer"))
+            {
                 string worldName = args[2];
                 string missionName = args[3];
                 string missionDuration = args[4];
-                string ocapUrl = args[5];
-                if (!ocapUrl.StartsWith("http://"))
-                {
-                    ocapUrl += "http://";
-                }
-                ocapUrl = AddMissingSlash(ocapUrl);
-                string postUrl = ocapUrl + "data/receive.php";
+                string webRoot = args[5];
+                webRoot = AddMissingSlash(webRoot);
+                string transferFilepath = webRoot + "data/" + captureFilename;
 
-                // Transfer JSON file to a local location
-                if (option.Equals("transferLocal"))
-                {
-                    string webRoot = args[6];
-                    webRoot = AddMissingSlash(webRoot);
-                    string transferFilepath = webRoot + "data/" + captureFilename;
-
-                    try
-                    {
-                        // Move JSON file from /tmp to transferPath
-                        Log("Moving " + captureFilename + " to " + transferFilepath + "...");
-                        File.Move(captureFilepath, transferFilepath);
-                        Log("Done");
-                    } catch (Exception e)
-                    {
-                        Log(e.ToString());
-                    }
-
-                }
-
-                // Transfer JSON file to a remote location
-                else if (option.Equals("transferRemote"))
-                {
-                    // POST file
-                    try
-                    {
-                        Log("Sending " + captureFilename + " to " + postUrl + "...");
-                        using (var http = new HttpClient()) using (var formData = new MultipartFormDataContent())
-                        {
-                            HttpContent fileBytes = new ByteArrayContent(File.ReadAllBytes(captureFilepath));
-                            formData.Add(new StringContent("addFile"), "option");
-                            formData.Add(new StringContent(captureFilename), "fileName");
-                            formData.Add(fileBytes, "fileContents");
-                            var result = http.PostAsync(postUrl, formData).Result;
-                            string resultContent = result.Content.ReadAsStringAsync().Result;
-                            Log("Web server responded with: " + resultContent);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Log(e.ToString());
-                    }
-                }
-
-                // POST worldName/missionName/missionDuration 
                 try
                 {
-                    Log("Sending POST data to " + postUrl);
-                    using (var http = new HttpClient())
-                    {
-                        var postValues = new Dictionary<string, string>
-                        {
-                            {"option", "dbInsert"},
-                            {"worldName", worldName },
-                            {"missionName", missionName },
-                            {"missionDuration", missionDuration },
-                            {"filename", captureFilename }
-                        };
-                        var content = new FormUrlEncodedContent(postValues);
-                        var result = http.PostAsync(postUrl, content).Result;
-                        string resultContent = result.Content.ReadAsStringAsync().Result;
-                        Log("Web server responded with: " + resultContent);
-                    }
-                } catch (Exception e)
+                    // Move JSON file from /tmp to transferPath
+                    Log("Moving " + captureFilename + " to " + transferFilepath + "...");
+                    File.Move(captureFilepath, transferFilepath);
+                    Log("Done");
+                }
+                catch (Exception e)
                 {
                     Log(e.ToString());
                 }
+
+                // Send output to Arma
+                output.Append("Success");
             }
 
-            // Send output to Arma
-            output.Append("Success");
+            // Unknown option passed to .dll
+            else
+            {
+                Log("Unknown option passed from fn_callExtension!");
+
+                // Send output to Arma
+                output.Append("Failed");
+            }
         }
 
         public static void Log(string str)
