@@ -58,7 +58,7 @@ namespace OCAPExporter
 {
     public class Main
     {
-        static string logfile = "ocap_log.txt";
+        const string logfile = "ocap_exporter.log";
 
         // This 2 line are IMPORTANT and if changed will stop everything working
         // To send a string back to ARMA append to the output StringBuilder, ARMA outputSize limit applies!
