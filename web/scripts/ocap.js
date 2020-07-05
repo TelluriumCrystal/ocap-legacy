@@ -843,7 +843,7 @@ class UI {
 		var table = document.createElement("table");
 		var headerRow = document.createElement("tr");
 		
-		var columnNames = ["Mission", "Terrain", "Date", "Duration"];
+		var columnNames = ["Mission", "Map", "Date", "Duration"];
 		columnNames.forEach(function(name) {
 			var th = document.createElement("th");
 			th.textContent = name;
@@ -852,16 +852,17 @@ class UI {
 		});
 		table.appendChild(headerRow);
 
-
 		data.forEach((op) => {
 			var row = document.createElement("tr");
 			var cell = document.createElement("td");
 
+			op = op.split(",");
+			console.log(op)
 			var vals = [
-				op.mission_name,
-				op.world_name,
-				dateToLittleEndianString(new Date(op.date)),
-				secondsToTimeString(op.mission_duration)
+				op[1],
+				op[0],
+				dateToLittleEndianString(new Date(op[4])),
+				secondsToTimeString(op[2])
 			];
 			vals.forEach(function(val) {
 				var cell = document.createElement("td");
@@ -871,7 +872,8 @@ class UI {
 
 			row.addEventListener("click", () => {
 				this.modalBody.textContent = "Loading...";
-				processOp("data/" + op.filename);
+				var modifiedFilePath = op[3].split("\\")[3];
+				processOp("http://localhost/ocap/data/" + modifiedFilePath);
 			});
 			table.insertBefore(row, table.childNodes[1]);
 		});
@@ -1345,12 +1347,16 @@ function initOCAP() {
 };
 
 function setWorlds() {
+	// TODO: THIS WILL LOAD THE JSON WE REPLACE
 	let jsonPath = "images/maps/maps.json";
 
 	console.log("Getting worlds from " + jsonPath);
+	
 	$.getJSON(jsonPath, function(data) {
+		
 		worlds = data;
 	});
+
 };
 
 function getWorldByName(worldName) {

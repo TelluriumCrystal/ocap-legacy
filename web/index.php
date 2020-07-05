@@ -1,5 +1,22 @@
 <?php
 include "common.php";
+$dir = '..\\web\\data';
+
+$filesInData = glob($dir . '\\*.json');
+$ops = array();
+foreach($filesInData as &$dataFileName){
+	$string = file_get_contents($dataFileName);
+	$fileData = json_decode($string, true);
+
+	# Emulate old database structure as JSON
+	$op_world_name = $fileData["worldName"] . ',';
+	$op_mission_name = $fileData["missionName"] . ',';
+	$op_mission_duration = $fileData["missionDuration"] . ',';
+	$op_filename = $dataFileName . ',';
+	$op_date = $fileData["missionDate"];
+	$ops[] = $op_world_name . $op_mission_name . $op_mission_duration . $op_filename . $op_date;
+
+}
 
 
 ?>
@@ -23,9 +40,6 @@ include "common.php";
 
 
 <div id="container">
-	<a href="http://www.3commandobrigade.com/" target="_blank">
-		<div id="uk3cbLogoWatermark"></div>
-	</a>
 	<div id="map"></div>
 	<div id="topPanel">
 		<div id="ocapLogoButton"></div>
@@ -93,6 +107,7 @@ include "common.php";
 <div id="hint" class="hint">Test popup</div>
 
 <script>
+
 let opList = <?php echo json_encode($ops); ?>;
 let appVersion = <?php echo json_encode(VERSION); ?>;
 let appTitle = <?php echo json_encode($appTitle); ?>;
