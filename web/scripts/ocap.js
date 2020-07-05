@@ -857,11 +857,21 @@ class UI {
 			var cell = document.createElement("td");
 
 			op = op.split(",");
+			var missionName = op[1];
+			var missionMap = op[0];
+			var missionDate = op[4];
+			var missionDur = op[2];
+			var missionFile = op[3];
+
+			// format the date a little
+			var tmpDate = missionDate.split(" ");
+			missionDate = tmpDate[0] + " at " + tmpDate[1];
+
 			var vals = [
-				op[1],
-				op[0],
-				dateToLittleEndianString(new Date(op[4])),
-				secondsToTimeString(op[2])
+				missionName, // Mission name
+				missionMap, // Map
+				missionDate, // Date
+				secondsToTimeString(missionDur) // Mission time
 			];
 			vals.forEach(function(val) {
 				var cell = document.createElement("td");
@@ -871,7 +881,7 @@ class UI {
 
 			row.addEventListener("click", () => {
 				this.modalBody.textContent = "Loading...";
-				var modifiedFilePath = op[3].split("\\")[3];
+				var modifiedFilePath = missionFile.split("\\")[3];
 				processOp("http://localhost/ocap/data/" + modifiedFilePath);
 			});
 			table.insertBefore(row, table.childNodes[1]);
