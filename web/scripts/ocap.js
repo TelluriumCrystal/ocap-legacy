@@ -857,7 +857,6 @@ class UI {
 			var cell = document.createElement("td");
 
 			op = op.split(",");
-			console.log(op)
 			var vals = [
 				op[1],
 				op[0],
@@ -969,7 +968,11 @@ class UI {
 		this.filterEvent(event);
 	};
 	
-	showHint(text) {
+	showHint(text, redBG) {
+		if (redBG != undefined){
+			this.hint.style.backgroundColor = "#a00000";
+		}
+
 		this.hint.textContent = text;
 		this.hint.style.display = "inherit";
 
@@ -1330,6 +1333,11 @@ var followColour = "#FFA81A";
 var hitColour = "#FF0000";
 var deadColour = "#000000";
 
+
+function sleep (time) {
+	return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 function initOCAP() {
 	mapDiv = document.getElementById("map");
 	defineIcons();
@@ -1361,13 +1369,18 @@ function setWorlds() {
 
 function getWorldByName(worldName) {
 	console.log("Getting world " + worldName);
-	
+
 	for (let i = 0; i < worlds.length; i++) {
 		var world = worlds[i];
-		if (world.worldName.toLowerCase() == worldName) {
+		console.log(world)
+		if ((typeof world.worldName == 'string') && (world.worldName.toLowerCase() == worldName)) {
 			return world;
+		} else if (typeof world.worldName != 'string') {
+			console.log("Got undefined world name at index " + i + " with length " + worlds.length)
+			console.log(world)
 		};
 	};
+	return null;
 };
 
 function initMap() {
@@ -1400,7 +1413,13 @@ function initMap() {
 	console.log("Got world: ");
 	console.log(world);
 	if (world == null) {
-		ui.showHint(`Error: Map "${worldName}" is not installed`);
+		ui.showHint(`Error: Map "${worldName}" is not installed`, true);
+
+		// sleep 2 seconds after error, then reload
+		sleep(2000).then(() => {
+			window.location.assign("http://localhost/ocap/index.php");
+		})
+	
 	};
 
 	imageSize = world.imageSize;

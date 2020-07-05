@@ -106,86 +106,86 @@
 	},
 	{
 		"name": "Cindercity",
-		"worldname": "cindercity",
-		"worldsize": 2048,
-		"imagesize": 2048,
+		"worldName": "cindercity",
+		"worldSize": 2048,
+		"imageSize": 2048,
 		"multiplier": 1
 	},
 	{
 		"name": "Diyala Iraq",
-		"worldname": "dya",
-		"worldsize": 8192,
-		"imagesize": 8192,
+		"worldName": "dya",
+		"worldSize": 8192,
+		"imageSize": 8192,
 		"multiplier": 1
 	},
 	{
 		"name": "PR FATA",
-		"worldname": "fata",
-		"worldsize": 10240,
-		"imagesize": 16384,
+		"worldName": "fata",
+		"worldSize": 10240,
+		"imageSize": 16384,
 		"multiplier": 1.6
 	},
 	{
 		"name": "Karia",
-		"worldname": "karia",
-		"worldsize": 2048,
-		"imagesize": 2048,
+		"worldName": "karia",
+		"worldSize": 2048,
+		"imageSize": 2048,
 		"multiplier": 1
 	},
 	{
 		"name": "Kunduz, Afghanistan",
-		"worldname": "kunduz",
-		"worldsize": 5121,
-		"imagesize": 8192,
+		"worldName": "kunduz",
+		"worldSize": 5121,
+		"imageSize": 8192,
 		"multiplier": 1.599687561023238
 	},
 	{
 		"name": "Celle 2",
-		"worldname": "mbg_celle2",
-		"worldsize": 12288,
-		"imagesize": 16384,
+		"worldName": "mbg_celle2",
+		"worldSize": 12288,
+		"imageSize": 16384,
 		"multiplier": 1.333333333333333
 	},
 	{
 		"name": "Aliabad Region",
-		"worldname": "mcn_aliabad",
-		"worldsize": 5120,
-		"imagesize": 4096,
+		"worldName": "mcn_aliabad",
+		"worldSize": 5120,
+		"imageSize": 4096,
 		"multiplier": 0.8
 	},
 	{
 		"name": "G.O.S Dariyah",
-		"worldname": "pja307",
-		"worldsize": 20480,
-		"imagesize": 16384,
+		"worldName": "pja307",
+		"worldSize": 20480,
+		"imageSize": 16384,
 		"multiplier": 0.8
 	},
 	{
 		"name": "Thirsk",
-		"worldname": "thirsk",
-		"worldsize": 5120,
-		"imagesize": 4096,
+		"worldName": "thirsk",
+		"worldSize": 5120,
+		"imageSize": 4096,
 		"multiplier": 0.8
 	},
 	{
 		"name": "Thirsk Winter",
-		"worldname": "thirskw",
-		"worldsize": 5120,
-		"imagesize": 4096,
+		"worldName": "thirskw",
+		"worldSize": 5120,
+		"imageSize": 4096,
 		"multiplier": 0.8
 	},
 	{
 		"name": "Schwemlitz",
-		"worldname": "wl_route191",
-		"worldsize": 5120,
-		"imagesize": 4096,
+		"worldName": "wl_route191",
+		"worldSize": 5120,
+		"imageSize": 4096,
 		"multiplier": 0.8
 	},
 	{
 		"name": "Schwemlitz Winter",
-		"worldname": "wl_wroute191",
-		"worldsize": 5120,
-		"imagesize": 4096,
+		"worldName": "wl_wroute191",
+		"worldSize": 5120,
+		"imageSize": 4096,
 		"multiplier": 0.8
 	},
 	{
