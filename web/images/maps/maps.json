@@ -1,296 +1,296 @@
 [
-{
-	"name": "Isla Duala 3",
-	"worldName": "isladuala3",
-	"worldSize": 10240,
-	"imageSize": 16384,
-	"multiplier": 1.6
-},
-{
-	"name": "Podogorsk",
-	"worldName": "FDF_Isle1_a",
-	"worldSize": 20480,
-	"imageSize": 16384,
-	"multiplier": 0.8
-},
-{
-    "name": "Desert",
-    "worldName": "Desert_E",
-    "worldSize": 2048,
-    "imageSize": 16384,
-    "multiplier": 8
-},
-{
-    "name": "Malden",
-    "worldName": "abel",
-    "worldSize": 12800,
-    "imageSize": 16384,
-    "multiplier": 1.28
-},
-{
-    "name": "Isla Abramia v1.7",
-    "worldName": "abramia",
-    "worldSize": 10241,
-    "imageSize": 16384,
-    "multiplier": 1.599843765257299
-},
-{
-    "name": "Bukovina",
-    "worldName": "bootcamp_acr",
-    "worldSize": 3843,
-    "imageSize": 8196,
-    "multiplier": 2.131667967733542
-},
-{
-    "name": "Summer Chernarus",
-    "worldName": "chernarus_summer",
-    "worldSize": 15361,
-    "imageSize": 16384,
-    "multiplier": 1.066597226743051
-},
-{
-    "name": "Takistan Mountains",
-    "worldName": "mountains_acr",
-    "worldSize": 6400,
-    "imageSize": 16384,
-    "multiplier": 2.56
-},
-{
-    "name": "Proving Grounds",
-    "worldName": "provinggrounds_pmc",
-    "worldSize": 2049,
-    "imageSize": 4096,
-    "multiplier": 1.999023914104441
-},
-{
-    "name": "Virtual Reality",
-    "worldName": "vr",
-    "worldSize": 8193,
-    "imageSize": 16384,
-    "multiplier": 1.999755889173685
-},
-{
-    "name": "Vt5, Suomi Finland - v0.2",
-    "worldName": "vt5",
-    "worldSize": 6012,
-    "imageSize": 16384,
-    "multiplier": 2.72521623419827
-},
-{
-    "name": "Bystrica",
-    "worldName": "woodland_acr",
-    "worldSize": 7682,
-    "imageSize": 16384,
-    "multiplier": 2.132777922416037
-},
-{ 
-	"name": "Bozcaada", 
-	"worldName": "Bozcaada", 
-	"worldSize": 20481, 
-	"imageSize": 16384, 
-	"multiplier": 0.7999609394072555 
-},
-{
-	"name": "Napf Winter",
-	"worldName": "NapfWinter",
-	"worldSize": 20480,
-	"imageSize": 16384,
-	"multiplier": 0.8
-},
-{
-	"name": "Napf",
-	"worldName": "Napf",
-	"worldSize": 20480,
-	"imageSize": 16384,
-	"multiplier": 0.8
-},
-{
-	"name": "Cindercity",
-	"worldname": "cindercity",
-	"worldsize": 2048,
-	"imagesize": 2048,
-	"multiplier": 1
-},
-{
-	"name": "Diyala Iraq",
-	"worldname": "dya",
-	"worldsize": 8192,
-	"imagesize": 8192,
-	"multiplier": 1
-},
-{
-	"name": "PR FATA",
-	"worldname": "fata",
-	"worldsize": 10240,
-	"imagesize": 16384,
-	"multiplier": 1.6
-},
-{
-	"name": "Karia",
-	"worldname": "karia",
-	"worldsize": 2048,
-	"imagesize": 2048,
-	"multiplier": 1
-},
-{
-	"name": "Kunduz, Afghanistan",
-	"worldname": "kunduz",
-	"worldsize": 5121,
-	"imagesize": 8192,
-	"multiplier": 1.599687561023238
-},
-{
-	"name": "Celle 2",
-	"worldname": "mbg_celle2",
-	"worldsize": 12288,
-	"imagesize": 16384,
-	"multiplier": 1.333333333333333
-},
-{
-	"name": "Aliabad Region",
-	"worldname": "mcn_aliabad",
-	"worldsize": 5120,
-	"imagesize": 4096,
-	"multiplier": 0.8
-},
-{
-	"name": "G.O.S Dariyah",
-	"worldname": "pja307",
-	"worldsize": 20480,
-	"imagesize": 16384,
-	"multiplier": 0.8
-},
-{
-	"name": "Thirsk",
-	"worldname": "thirsk",
-	"worldsize": 5120,
-	"imagesize": 4096,
-	"multiplier": 0.8
-},
-{
-	"name": "Thirsk Winter",
-	"worldname": "thirskw",
-	"worldsize": 5120,
-	"imagesize": 4096,
-	"multiplier": 0.8
-},
-{
-	"name": "Schwemlitz",
-	"worldname": "wl_route191",
-	"worldsize": 5120,
-	"imagesize": 4096,
-	"multiplier": 0.8
-},
-{
-	"name": "Schwemlitz Winter",
-	"worldname": "wl_wroute191",
-	"worldsize": 5120,
-	"imagesize": 4096,
-	"multiplier": 0.8
-},
-{
-	"name": "Gorgona",
-   "worldName": "Gorgona",
-   "worldSize": 4097,
-	"imageSize": 16384,
-	"multiplier": 3.999023675860386
-},
-{
-	"name": "Beketov",
-	"worldName": "Beketov",
-	"worldSize": 20480,
-	"imageSize": 16384,
-	"multiplier": 0.8
-},
-{
-	"name": "pja314",
-	"worldName": "pja314",
-	"worldSize": 20481,
-	"imageSize": 16384,
-	"multiplier": 0.8
-},
-{
-	"name": "Baranow",
-	"worldName": "Baranow",
-	"worldSize": 8192,
-	"imageSize": 16384,
-	"multiplier": 2
-},
-{
-	"name": "Colleville",
-	"worldName": "Colleville",
-	"worldSize": 5120,
-	"imageSize": 16384,
-	"multiplier": 3.2
-},
-{
-	"name": "ivachev",
-	"worldName": "ivachev",
-	"worldSize": 645,
-	"imageSize": 16384,
-	"multiplier": 25.5600624024961
-},
-{
-	"name": "Panovo",
-	"worldName": "Panovo",
-	"worldSize": 5120,
-	"imageSize": 16384,
-	"multiplier": 3.2
-},
-{
-	"name": "Staszow",
-	"worldName": "Staszow",
-	"worldSize": 16384,
-	"imageSize": 16384,
-	"multiplier": 1
-},
-{
-	"name": "pja310",
-	"worldName": "pja310",
-	"worldSize": 20484,
-	"imageSize": 16384,
-	"multiplier": 0.79984378051
-},
-{
-	"name": "SWU_Ardennes_1944_Winter",
-	"worldName": "SWU_Ardennes_1944_Winter",
-	"worldSize": 5280,
-	"imageSize": 16384,
-	"multiplier": 1.5997
-},
-{
-	"name": "SWU_Ardennes_1940",
-	"worldName": "SWU_Ardennes_1940",
-	"worldSize": 5507,
-	"imageSize": 16384,
-	"multiplier": 1.5991
-},
-{
-	"name": "prei_khmaoch_luong",
-	"worldName": "prei_khmaoch_luong",
-	"worldSize": 8203,
-	"imageSize": 16384,
-	"multiplier": 1.997318054370352
-},
-{
-	"name": "MCN_Neaville_Winter",
-	"worldName": "MCN_Neaville_Winter",
-	"worldSize": 910,
-	"imageSize": 16384,
-	"multiplier": 3.1994
-},
-{
-	"name": "lythium",
-	"worldName": "lythium",
-	"worldSize": 77117,
-	"imageSize": 16384,
-	"multiplier": 0.799995
-},
-{
-	"name": "dingor",
-	"worldName": "dingor",
-	"worldSize": 5568,
-	"imageSize": 16384,
-	"multiplier": 1.6
-}
+	{
+		"name": "Isla Duala 3",
+		"worldName": "isladuala3",
+		"worldSize": 10240,
+		"imageSize": 16384,
+		"multiplier": 1.6
+	},
+	{
+		"name": "Podogorsk",
+		"worldName": "FDF_Isle1_a",
+		"worldSize": 20480,
+		"imageSize": 16384,
+		"multiplier": 0.8
+	},
+	{
+		"name": "Desert",
+		"worldName": "Desert_E",
+		"worldSize": 2048,
+		"imageSize": 16384,
+		"multiplier": 8
+	},
+	{
+		"name": "Malden",
+		"worldName": "abel",
+		"worldSize": 12800,
+		"imageSize": 16384,
+		"multiplier": 1.28
+	},
+	{
+		"name": "Isla Abramia v1.7",
+		"worldName": "abramia",
+		"worldSize": 10241,
+		"imageSize": 16384,
+		"multiplier": 1.599843765257299
+	},
+	{
+		"name": "Bukovina",
+		"worldName": "bootcamp_acr",
+		"worldSize": 3843,
+		"imageSize": 8196,
+		"multiplier": 2.131667967733542
+	},
+	{
+		"name": "Summer Chernarus",
+		"worldName": "chernarus_summer",
+		"worldSize": 15361,
+		"imageSize": 16384,
+		"multiplier": 1.066597226743051
+	},
+	{
+		"name": "Takistan Mountains",
+		"worldName": "mountains_acr",
+		"worldSize": 6400,
+		"imageSize": 16384,
+		"multiplier": 2.56
+	},
+	{
+		"name": "Proving Grounds",
+		"worldName": "provinggrounds_pmc",
+		"worldSize": 2049,
+		"imageSize": 4096,
+		"multiplier": 1.999023914104441
+	},
+	{
+		"name": "Virtual Reality",
+		"worldName": "vr",
+		"worldSize": 8193,
+		"imageSize": 16384,
+		"multiplier": 1.999755889173685
+	},
+	{
+		"name": "Vt5, Suomi Finland - v0.2",
+		"worldName": "vt5",
+		"worldSize": 6012,
+		"imageSize": 16384,
+		"multiplier": 2.72521623419827
+	},
+	{
+		"name": "Bystrica",
+		"worldName": "woodland_acr",
+		"worldSize": 7682,
+		"imageSize": 16384,
+		"multiplier": 2.132777922416037
+	},
+	{
+		"name": "Bozcaada",
+		"worldName": "Bozcaada",
+		"worldSize": 20481,
+		"imageSize": 16384,
+		"multiplier": 0.7999609394072555
+	},
+	{
+		"name": "Napf Winter",
+		"worldName": "NapfWinter",
+		"worldSize": 20480,
+		"imageSize": 16384,
+		"multiplier": 0.8
+	},
+	{
+		"name": "Napf",
+		"worldName": "Napf",
+		"worldSize": 20480,
+		"imageSize": 16384,
+		"multiplier": 0.8
+	},
+	{
+		"name": "Cindercity",
+		"worldname": "cindercity",
+		"worldsize": 2048,
+		"imagesize": 2048,
+		"multiplier": 1
+	},
+	{
+		"name": "Diyala Iraq",
+		"worldname": "dya",
+		"worldsize": 8192,
+		"imagesize": 8192,
+		"multiplier": 1
+	},
+	{
+		"name": "PR FATA",
+		"worldname": "fata",
+		"worldsize": 10240,
+		"imagesize": 16384,
+		"multiplier": 1.6
+	},
+	{
+		"name": "Karia",
+		"worldname": "karia",
+		"worldsize": 2048,
+		"imagesize": 2048,
+		"multiplier": 1
+	},
+	{
+		"name": "Kunduz, Afghanistan",
+		"worldname": "kunduz",
+		"worldsize": 5121,
+		"imagesize": 8192,
+		"multiplier": 1.599687561023238
+	},
+	{
+		"name": "Celle 2",
+		"worldname": "mbg_celle2",
+		"worldsize": 12288,
+		"imagesize": 16384,
+		"multiplier": 1.333333333333333
+	},
+	{
+		"name": "Aliabad Region",
+		"worldname": "mcn_aliabad",
+		"worldsize": 5120,
+		"imagesize": 4096,
+		"multiplier": 0.8
+	},
+	{
+		"name": "G.O.S Dariyah",
+		"worldname": "pja307",
+		"worldsize": 20480,
+		"imagesize": 16384,
+		"multiplier": 0.8
+	},
+	{
+		"name": "Thirsk",
+		"worldname": "thirsk",
+		"worldsize": 5120,
+		"imagesize": 4096,
+		"multiplier": 0.8
+	},
+	{
+		"name": "Thirsk Winter",
+		"worldname": "thirskw",
+		"worldsize": 5120,
+		"imagesize": 4096,
+		"multiplier": 0.8
+	},
+	{
+		"name": "Schwemlitz",
+		"worldname": "wl_route191",
+		"worldsize": 5120,
+		"imagesize": 4096,
+		"multiplier": 0.8
+	},
+	{
+		"name": "Schwemlitz Winter",
+		"worldname": "wl_wroute191",
+		"worldsize": 5120,
+		"imagesize": 4096,
+		"multiplier": 0.8
+	},
+	{
+		"name": "Gorgona",
+		"worldName": "Gorgona",
+		"worldSize": 4097,
+		"imageSize": 16384,
+		"multiplier": 3.999023675860386
+	},
+	{
+		"name": "Beketov",
+		"worldName": "Beketov",
+		"worldSize": 20480,
+		"imageSize": 16384,
+		"multiplier": 0.8
+	},
+	{
+		"name": "pja314",
+		"worldName": "pja314",
+		"worldSize": 20481,
+		"imageSize": 16384,
+		"multiplier": 0.8
+	},
+	{
+		"name": "Baranow",
+		"worldName": "Baranow",
+		"worldSize": 8192,
+		"imageSize": 16384,
+		"multiplier": 2
+	},
+	{
+		"name": "Colleville",
+		"worldName": "Colleville",
+		"worldSize": 5120,
+		"imageSize": 16384,
+		"multiplier": 3.2
+	},
+	{
+		"name": "ivachev",
+		"worldName": "ivachev",
+		"worldSize": 645,
+		"imageSize": 16384,
+		"multiplier": 25.5600624024961
+	},
+	{
+		"name": "Panovo",
+		"worldName": "Panovo",
+		"worldSize": 5120,
+		"imageSize": 16384,
+		"multiplier": 3.2
+	},
+	{
+		"name": "Staszow",
+		"worldName": "Staszow",
+		"worldSize": 16384,
+		"imageSize": 16384,
+		"multiplier": 1
+	},
+	{
+		"name": "pja310",
+		"worldName": "pja310",
+		"worldSize": 20484,
+		"imageSize": 16384,
+		"multiplier": 0.79984378051
+	},
+	{
+		"name": "SWU_Ardennes_1944_Winter",
+		"worldName": "SWU_Ardennes_1944_Winter",
+		"worldSize": 5280,
+		"imageSize": 16384,
+		"multiplier": 1.5997
+	},
+	{
+		"name": "SWU_Ardennes_1940",
+		"worldName": "SWU_Ardennes_1940",
+		"worldSize": 5507,
+		"imageSize": 16384,
+		"multiplier": 1.5991
+	},
+	{
+		"name": "prei_khmaoch_luong",
+		"worldName": "prei_khmaoch_luong",
+		"worldSize": 8203,
+		"imageSize": 16384,
+		"multiplier": 1.997318054370352
+	},
+	{
+		"name": "MCN_Neaville_Winter",
+		"worldName": "MCN_Neaville_Winter",
+		"worldSize": 910,
+		"imageSize": 16384,
+		"multiplier": 3.1994
+	},
+	{
+		"name": "lythium",
+		"worldName": "lythium",
+		"worldSize": 77117,
+		"imageSize": 16384,
+		"multiplier": 0.799995
+	},
+	{
+		"name": "dingor",
+		"worldName": "dingor",
+		"worldSize": 5568,
+		"imageSize": 16384,
+		"multiplier": 1.6
+	}
 ]
