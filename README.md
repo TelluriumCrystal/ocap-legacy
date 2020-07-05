@@ -38,7 +38,7 @@ if (isServer) then {
 ```
 
 ## Revival
-When the original developpent of OCAP was abandoned, the data collection/map data server was shut down. We are currently in the
+When the original developent of OCAP was abandoned, the data collection/map data server was shut down. We are currently in the
 process of re-writing the application to facilitate running the application on a local server only. The tool is currently functional at this time, instruction updates to follow in a later update.
  
 ## Credits
