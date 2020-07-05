@@ -6,8 +6,9 @@ error_reporting(E_ALL);
 
 $debug = false;
 $appTitle = "OCAP";
-$appDesc = "Operation Capture And Playback";
-$appAuthor = "MisterGoodson (aka Goodson [3CB]), updated by TelluriumCrystal and Axodah";
+$appDesc = "Operation Capture And Playback - Revived";
+$appAuthor = "MisterGoodson (aka Goodson [3CB]), Development K.I.A. on Dec 16th, 2017";
+$appUpdater = "Revived by TelluriumCrystal and Axodah on July 5th, 2020";
 const VERSION = "0.5.0.1-beta";
 
 

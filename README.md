@@ -1,6 +1,6 @@
 ![OCAP](https://i.imgur.com/4Z16B8J.png)
 
-**Operation Capture And Playback (BETA)**
+**Operation Capture And Playback - REVIVED (BETA)**
 
 ![OCAP Screenshot](https://i.imgur.com/67L12wKl.jpg)
 
@@ -37,6 +37,9 @@ if (isServer) then {
 "end1" call BIS_fnc_endMission; // Ends mission for everyone
 ```
 
+## Revival
+When the original developpent of OCAP was abandoned, the data collection/map data server was shut down. We are currently in the
+process of re-writing the application to facilitate running the application on a local server only. The tool is currently functional at this time, instruction updates to follow in a later update.
  
 ## Credits
 

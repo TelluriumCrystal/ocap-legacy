@@ -617,7 +617,7 @@ class UI {
 		var loadOpButton = document.getElementById("loadOpButton");
 		loadOpButton.addEventListener("click", function() {
 			//TODO: Show op selection menu, reset all variables + clear all panels.
-			ui.showHint("Not yet implemented.");
+
 		});
 		this.loadOpButton = loadOpButton;
 
@@ -888,6 +888,11 @@ class UI {
 		});
 		this.modalBody.textContent = "";
 		this.modalBody.appendChild(table);
+		/*
+		this.modalButtons.appendChild(this.makeModalButton("Close", function() {
+			ui.hideModal();
+		}));
+		*/
 	};
 	
 	makeModalButton(text, func) {
@@ -907,15 +912,13 @@ class UI {
 			<h4 style=line-height:0>${appDesc} (BETA)</h4>
 			<h5 style=line-height:0>v${appVersion}</h5>
 			Created by ${appAuthor}<br/>
+			${appUpdater}<br/>
 			Originally made for <a href="http://www.3commandobrigade.com" target="_blank">3 Commando Brigade</a>
 			<br/>
 			<br/>
-			<a href="" target="_blank">BI Forum Post</a><br/>
-			<a href="" target="_blank">GitHub Link</a>
+			<a href="https://github.com/TelluriumCrystal/ocap-revived" target="_blank">GitHub Link</a>
 			<br/>
-			<br/>
-			Press space to play/pause<br/>
-			Press E/R to hide/show side panels`;
+			<br/>`;
 		this.modalButtons.innerHTML = "";
 		this.modalButtons.appendChild(this.makeModalButton("Close", function() {
 			ui.hideModal();

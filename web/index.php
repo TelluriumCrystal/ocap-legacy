@@ -113,6 +113,7 @@ let appVersion = <?php echo json_encode(VERSION); ?>;
 let appTitle = <?php echo json_encode($appTitle); ?>;
 let appDesc = <?php echo json_encode($appDesc); ?>;
 let appAuthor = <?php echo json_encode($appAuthor); ?>;
+let appUpdater = <?php echo json_encode($appUpdater); ?>;
 
 initOCAP();
 </script>
