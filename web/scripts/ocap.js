@@ -617,7 +617,7 @@ class UI {
 		var loadOpButton = document.getElementById("loadOpButton");
 		loadOpButton.addEventListener("click", function() {
 			//TODO: Show op selection menu, reset all variables + clear all panels.
-			ui.showHint("Not yet implemented.");
+
 		});
 		this.loadOpButton = loadOpButton;
 
@@ -843,7 +843,7 @@ class UI {
 		var table = document.createElement("table");
 		var headerRow = document.createElement("tr");
 		
-		var columnNames = ["Mission", "Terrain", "Date", "Duration"];
+		var columnNames = ["Mission", "Map", "Date", "Duration"];
 		columnNames.forEach(function(name) {
 			var th = document.createElement("th");
 			th.textContent = name;
@@ -852,16 +852,26 @@ class UI {
 		});
 		table.appendChild(headerRow);
 
-
 		data.forEach((op) => {
 			var row = document.createElement("tr");
 			var cell = document.createElement("td");
 
+			op = op.split(",");
+			var missionName = op[1];
+			var missionMap = op[0];
+			var missionDate = op[4];
+			var missionDur = op[2];
+			var missionFile = op[3];
+
+			// format the date a little
+			var tmpDate = missionDate.split(" ");
+			missionDate = tmpDate[0] + " at " + tmpDate[1];
+
 			var vals = [
-				op.mission_name,
-				op.world_name,
-				dateToLittleEndianString(new Date(op.date)),
-				secondsToTimeString(op.mission_duration)
+				missionName, // Mission name
+				missionMap, // Map
+				missionDate, // Date
+				secondsToTimeString(missionDur) // Mission time
 			];
 			vals.forEach(function(val) {
 				var cell = document.createElement("td");
@@ -871,12 +881,18 @@ class UI {
 
 			row.addEventListener("click", () => {
 				this.modalBody.textContent = "Loading...";
-				processOp("data/" + op.filename);
+				var modifiedFilePath = missionFile.split("\\")[3];
+				processOp("http://localhost/ocap/data/" + modifiedFilePath);
 			});
 			table.insertBefore(row, table.childNodes[1]);
 		});
 		this.modalBody.textContent = "";
 		this.modalBody.appendChild(table);
+		/*
+		this.modalButtons.appendChild(this.makeModalButton("Close", function() {
+			ui.hideModal();
+		}));
+		*/
 	};
 	
 	makeModalButton(text, func) {
@@ -896,15 +912,13 @@ class UI {
 			<h4 style=line-height:0>${appDesc} (BETA)</h4>
 			<h5 style=line-height:0>v${appVersion}</h5>
 			Created by ${appAuthor}<br/>
+			${appUpdater}<br/>
 			Originally made for <a href="http://www.3commandobrigade.com" target="_blank">3 Commando Brigade</a>
 			<br/>
 			<br/>
-			<a href="" target="_blank">BI Forum Post</a><br/>
-			<a href="" target="_blank">GitHub Link</a>
+			<a href="https://github.com/TelluriumCrystal/ocap-revived" target="_blank">GitHub Link</a>
 			<br/>
-			<br/>
-			Press space to play/pause<br/>
-			Press E/R to hide/show side panels`;
+			<br/>`;
 		this.modalButtons.innerHTML = "";
 		this.modalButtons.appendChild(this.makeModalButton("Close", function() {
 			ui.hideModal();
@@ -967,7 +981,11 @@ class UI {
 		this.filterEvent(event);
 	};
 	
-	showHint(text) {
+	showHint(text, redBG) {
+		if (redBG != undefined){
+			this.hint.style.backgroundColor = "#a00000";
+		}
+
 		this.hint.textContent = text;
 		this.hint.style.display = "inherit";
 
@@ -1328,6 +1346,11 @@ var followColour = "#FFA81A";
 var hitColour = "#FF0000";
 var deadColour = "#000000";
 
+
+function sleep (time) {
+	return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 function initOCAP() {
 	mapDiv = document.getElementById("map");
 	defineIcons();
@@ -1345,23 +1368,32 @@ function initOCAP() {
 };
 
 function setWorlds() {
+	// TODO: THIS WILL LOAD THE JSON WE REPLACE
 	let jsonPath = "images/maps/maps.json";
 
 	console.log("Getting worlds from " + jsonPath);
+	
 	$.getJSON(jsonPath, function(data) {
+		
 		worlds = data;
 	});
+
 };
 
 function getWorldByName(worldName) {
 	console.log("Getting world " + worldName);
-	
+
 	for (let i = 0; i < worlds.length; i++) {
 		var world = worlds[i];
-		if (world.worldName.toLowerCase() == worldName) {
+		console.log(world)
+		if ((typeof world.worldName == 'string') && (world.worldName.toLowerCase() == worldName)) {
 			return world;
+		} else if (typeof world.worldName != 'string') {
+			console.log("Got undefined world name at index " + i + " with length " + worlds.length)
+			console.log(world)
 		};
 	};
+	return null;
 };
 
 function initMap() {
@@ -1394,7 +1426,13 @@ function initMap() {
 	console.log("Got world: ");
 	console.log(world);
 	if (world == null) {
-		ui.showHint(`Error: Map "${worldName}" is not installed`);
+		ui.showHint(`Error: Map "${worldName}" is not installed`, true);
+
+		// sleep 2 seconds after error, then reload
+		sleep(2000).then(() => {
+			window.location.assign("http://localhost/ocap/index.php");
+		})
+	
 	};
 
 	imageSize = world.imageSize;
