@@ -1,5 +1,3 @@
-Copyright (C) 2016 Jamie Goodson (aka MisterGoodson) (goodsonjamie@yahoo.co.uk)
-
 References to "this program" include all files, folders, and subfolders
 bundled with this license file.
 
