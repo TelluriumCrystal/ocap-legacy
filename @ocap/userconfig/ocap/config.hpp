@@ -1,16 +1,20 @@
 // OCAP Configuration Options
 
-// true: Capture will automatically begin upon mission start
-// false: Capture will not begin until set to true (e.g. in mission init.sqf) AND ocap_minPlayerCount is met.
-// Setting to false allows for mission-specific capture
+// If true, OCAP will begin capture as soon as ocap_minPlayerCount is met; if false, OCAP will not start capture until another script sets it true
 ocap_capture = true;
 
-ocap_exportPath = "C:/apache/htdocs/ocap/"; // Absolute path to OCAP web server root directory (e.g. "C:/apache/htdocs/ocap/")
+// Absolute path to OCAP web server root directory (e.g. "C:/apache/htdocs/ocap/") - this is where the exporter will save mission data
+ocap_exportPath = "C:/apache/htdocs/ocap/";
 
-ocap_frameCaptureDelay = 1; // Delay between each frame capture. Each frame is roughly 1 second long.
-ocap_minPlayerCount = 1;    // Minimum player count before capture begins. Set this to 0 for immediate capture (assuming ocap_endCaptureOnNoPlayers = false)
+// Delay between each frame capture (in seconds). In a server with infinate CPU speed this sets the length of each frame. Set lower for higher fidelity data.
+ocap_frameCaptureDelay = 1;
+// Minimum player count before capture begins. Set this to 0 for immediate capture (assuming ocap_endCaptureOnNoPlayers = false)
+ocap_minPlayerCount = 1;
 
-ocap_endCaptureOnNoPlayers = true;   // End (and export) capture once players are no longer present
-ocap_endCaptureOnEndMission = false; // End (and export) capture once mission ends
+// End (and export) capture once players are no longer present
+ocap_endCaptureOnNoPlayers = true;
+// End (and export) capture once mission ends
+ocap_endCaptureOnEndMission = false;
 
-ocap_debug = false; // Debug mode
+// Debug mode
+ocap_debug = false;
