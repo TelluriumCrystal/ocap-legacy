@@ -2,8 +2,11 @@ class CfgPatches
 {
 	class OCAP
 	{
+		// Editor meta info
 		name = "OCAP";
-		author = "MisterGoodson";
+		author = "OCAP Team";
+		url = "https://github.com/TelluriumCrystal/ocap-revived";
+		requiredversion = "1.68";
 		requiredAddons[] = {"A3_Functions_F", "cba_main"};
 		units[] = {};
 		weapons[] = {};
