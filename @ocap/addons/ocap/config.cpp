@@ -50,11 +50,9 @@ class CfgVehicles
 			class ModuleDescription;	// Module description
 			class Units;				// Selection of units on which the module is applied
 		};
-		// Description base classes, for more information see below
-		class ModuleDescription
-		{
-			class EmptyDetector;
-		};
+		
+		// Description base class
+		class ModuleDescription;
 	};
 	class OCAP_ModuleInit: Module_F
 	{
@@ -64,7 +62,7 @@ class CfgVehicles
 		category = "NO_CATEGORY";
 
 		// Name of function triggered once conditions are met
-		function = "ocap_fn_init";
+		function = "ocap_fnc_init";
 		// Execution priority, modules with lower number are executed first. 0 is used when the attribute is undefined
 		functionPriority = 1;
 		// 0 for server only execution, 1 for global execution, 2 for persistent global execution
@@ -82,33 +80,52 @@ class CfgVehicles
 		// Module attributes, uses https://community.bistudio.com/wiki/Eden_Editor:_Configuring_Attributes#Entity_Specific
 		class Attributes: AttributesBase
 		{
+			
 			// Arguments shared by specific module type (have to be mentioned in order to be present)
-			class Units: Units
-			{
-				property = "ocap_ModuleInit_Units";
-			};
+//			class Units: Units
+//			{
+//				property = "ocap_ModuleInit_Units";
+//			};
 			// Module specific arguments
-			class Yield: Combo
+			class ExportPath: Edit
 			{
-				// Unique property, use "<moduleClass>_<attributeClass>" format to make sure the name is unique in the world
-				property = "myTag_ModuleNuke_Yield";
-				displayName = "Nuclear weapon yield"; // Argument label
-				tooltip = "How strong will the explosion be"; // Tooltip description
-				typeName = "NUMBER"; // Value type, can be "NUMBER", "STRING" or "BOOL"
-				defaultValue = "50"; // Default attribute value. WARNING: This is an expression, and its returned value will be used (50 in this case)
-				class Values
-				{
-					class 50Mt	{name = "50 megatons";	value = 50;}; // Listbox item
-					class 100Mt	{name = "100 megatons"; value = 100;};
-				};
+				property = "ocap_ModuleInit_ExportPath";
+				displayName = "Export Filepath";
+				tooltip = "Absolute path to the OCAP web server root folder.";
+				typeName = "STRING";
+				defaultValue = "'C:/apache/htdocs/ocap/'";
 			};
-			class Name: Edit
+			class FrameDelay: Edit
 			{
-				displayName = "Name";
-				tooltip = "Name of the nuclear device";
-				// Default text filled in the input box
-				// Because it's an expression, to return a String one must have a string within a string
-				defaultValue = """Tsar Bomba""";
+				property = "ocap_ModuleInit_FrameDelay";
+				displayName = "Frame Delay";
+				tooltip = "Time in seconds to wait between each measurement. Lower = higher fidelity playback.";
+				typeName = "NUMBER";
+				defaultValue = "1";
+			};
+			class EndCaptureOnNoPlayers: Checkbox
+			{
+				property = "ocap_ModuleInit_EndCaptureOnNoPlayers";
+				displayName = "End Capture When No Players";
+				tooltip = "Automatically stop capture and export data if all players leave the server.";
+				typeName = "BOOL";
+				defaultValue = "false";
+			};
+			class EndCaptureOnEndMission: Checkbox
+			{
+				property = "ocap_ModuleInit_EndCaptureOnEndMission";
+				displayName = "End Capture When Mission Ends";
+				tooltip = "Automatically stop capture and export data if the mission ends.";
+				typeName = "BOOL";
+				defaultValue = "true";
+			};
+			class DebugMode: Checkbox
+			{
+				property = "ocap_ModuleInit_DebugMode";
+				displayName = "Debug Mode";
+				tooltip = "Enable debug mode. Generates verbose messages for debugging.";
+				typeName = "BOOL";
+				defaultValue = "false";
 			};
 			class ModuleDescription: ModuleDescription{}; // Module description should be shown last
 		};
@@ -116,20 +133,19 @@ class CfgVehicles
 		// Module description. Must inherit from base class, otherwise pre-defined entities won't be available
 		class ModuleDescription: ModuleDescription
 		{
-			description = "Short module description"; // Short description, will be formatted as structured text
+			description = "OCAP initalization module"; // Short description, will be formatted as structured text
 			sync[] = {"LocationArea_F"}; // Array of synced entities (can contain base classes)
 
 			class LocationArea_F
 			{
 				description[] = { // Multi-line descriptions are supported
-					"First line",
-					"Second line"
+					"This module initalizes OCAP and starts recording.",
+					"Should be synced with a trigger or set to activate at mission start."
 				};
 				position = 0; // Position is taken into effect
 				direction = 0; // Direction is taken into effect
 				optional = 1; // Synced entity is optional
 				duplicate = 1; // Multiple entities of this type can be synced
-				synced[] = {"EmptyDetector"}; // Pre-define entities like "AnyBrain" can be used. See the list below
 			};
 		};
 	};
