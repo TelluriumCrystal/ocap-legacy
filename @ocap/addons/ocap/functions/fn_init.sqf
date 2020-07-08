@@ -7,18 +7,23 @@
 */
 
 // Get Module inputs
-_logic = param [0,objNull,[objNull]];
-_units = param [1,[],[[]]];
-_activated = param [2,true,[true]];
+private _logic = param [0];
+private _activated = param [2];
 
-if(_activated) then {
+if(_activated and isServer) then {
 
 	// Define global vars
-	#include "\userconfig\ocap\config.hpp";
+	ocap_capture = true;
+	ocap_exportPath = _logic getVariable "ExportPath";
+	ocap_frameCaptureDelay = _logic getVariable "FrameDelay";
+	ocap_minPlayerCount = 0;
+	ocap_endCaptureOnNoPlayers = _logic getVariable "EndCaptureOnNoPlayers";
+	ocap_endCaptureOnEndMission = _logic getVariable "EndCaptureOnEndMission";
+	ocap_debug = _logic getVariable "DebugMode";
 	ocap_entitiesData = [];  // Data on all units + vehicles that appear throughout the mission.
-	ocap_eventsData = []; // Data on all events (involving 2+ units) that occur throughout the mission.
+	ocap_eventsData = [];    // Data on all events (involving 2+ units) that occur throughout the mission.
 	ocap_captureFrameNo = 0; // Frame number for current capture
-	ocap_endFrameNo = 0; // Frame number at end of mission
+	ocap_endFrameNo = 0;     // Frame number at end of mission
 
 	// Add mission EHs
 	addMissionEventHandler ["EntityKilled", {
