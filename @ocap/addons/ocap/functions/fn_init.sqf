@@ -4,11 +4,15 @@
 	Description:
 	Initialises OCAP variables and mission-wide eventhandlers.
 	Capture loop is automatically started once init complete.
+	
+	Paramaters:
+	_logic = [OBJECT] Module settings
+	_units = [LIST] List of affected units
+	_activated = [BOOL] Whether or not the module is activated
 */
 
-// Get Module inputs
-private _logic = param [0];
-private _activated = param [2];
+// Get Module settings
+_this params ["_logic", "_units", "_activated"];
 
 if(_activated and isServer) then {
 
