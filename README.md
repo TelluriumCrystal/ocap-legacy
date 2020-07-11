@@ -4,12 +4,8 @@
 
 ![OCAP Screenshot](https://i.imgur.com/67L12wKl.jpg)
 
-**[Live Web Demo](http://www.3commandobrigade.com:8080/ocap-demo/)**
-
 ## What is it?
-OCAP is a **game-changing** tool that allows the recording and playback of operations on an interactive (web-based) map.
-Reveal where the enemy were located, discover how each group carried out their assaults, and find out who engaged who, when, and what with.
-Use it simply for fun or as a training tool to see how well your group performs on ops.
+OCAP is a tool for Arma 3 that facilitates recording and playback of operations on an interactive web-based map. Reveal where the enemy was located, analyze how each group carried out their assaults, and find out who engaged who, when, and with what. Use it simply for fun or as a training tool to see how well your group performs on ops.
 
 ## Overview
 
@@ -38,7 +34,7 @@ if (isServer) then {
 ```
 
 ## Revival
-When the original development of OCAP was abandoned, the data collection/map data server was shut down. We are currently in the process of re-writing the application to facilitate running on a local server only. The tool is currently functional at this time, instruction updates to follow in a later update.
+When the original development of OCAP was abandoned, the data collection/map data server was shut down. We are currently in the process of re-writing the application to facilitate running on a local server only. The tool is currently functional but is buggy and lacking features. We will continue to work on getting it into a more polished state.
  
 ## Credits
 
