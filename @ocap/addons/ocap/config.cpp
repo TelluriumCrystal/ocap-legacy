@@ -139,6 +139,5 @@ class CfgVehicles
 		isTriggerActivated = 1;			// 1 for module waiting until all synced triggers are activated
 		isDisposable = 0;				// 1 if modules is to be disabled once it's activated (i.e., repeated trigger activation won't work)
 		is3DEN = 0;						// 1 to run init function in Eden Editor as well
-		};
 	};
 };
