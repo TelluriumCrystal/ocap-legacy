@@ -126,14 +126,14 @@ class CfgVehicles
 			};
 		};
 	};
-	
+
 	class OCAP_ModuleExport: Module_F
 	{
 		// Standard object definitions
 		scope = 2; 						// Editor visibility; 2 will show it in the menu, 1 will hide it.
 		displayName = "OCAP Export"; 	// Name displayed in the menu
 		category = "ocap_category";		// Editor category ("NO_CATEGORY = "Misc")
-		function = "ocap_fnc_init";		// Name of function triggered once conditions are met
+		function = "ocap_fnc_exportData";		// Name of function triggered once conditions are met
 		functionPriority = 1;			// Execution priority, modules with lower number are executed first. 0 is used when the attribute is undefined
 		isGlobal = 0;					// 0 for server only execution, 1 for global execution, 2 for persistent global execution
 		isTriggerActivated = 1;			// 1 for module waiting until all synced triggers are activated
