@@ -2,7 +2,7 @@ class CfgPatches
 {
 	class OCAP
 	{
-		// Editor meta info
+		// Mod meta info
 		name = "OCAP";
 		author = "OCAP Team";
 		url = "https://github.com/TelluriumCrystal/ocap-revived";
@@ -47,8 +47,6 @@ class CfgVehicles
 			class Combo;				// Default combo box (i.e., drop-down menu)
 			class Checkbox;				// Default checkbox (returned value is Bool)
 			class CheckboxNumber;		// Default checkbox (returned value is Number)
-			class ModuleDescription;	// Module description
-			class Units;				// Selection of units on which the module is applied
 		};
 		
 		// Description base class
@@ -80,12 +78,6 @@ class CfgVehicles
 		// Module attributes, uses https://community.bistudio.com/wiki/Eden_Editor:_Configuring_Attributes#Entity_Specific
 		class Attributes: AttributesBase
 		{
-			
-			// Arguments shared by specific module type (have to be mentioned in order to be present)
-//			class Units: Units
-//			{
-//				property = "ocap_ModuleInit_Units";
-//			};
 			// Module specific arguments
 			class ExportPath: Edit
 			{
@@ -126,26 +118,6 @@ class CfgVehicles
 				tooltip = "Enable debug mode. Generates verbose messages for debugging.";
 				typeName = "BOOL";
 				defaultValue = "false";
-			};
-			class ModuleDescription: ModuleDescription{}; // Module description should be shown last
-		};
-
-		// Module description. Must inherit from base class, otherwise pre-defined entities won't be available
-		class ModuleDescription: ModuleDescription
-		{
-			description = "OCAP initalization module"; // Short description, will be formatted as structured text
-			sync[] = {"LocationArea_F"}; // Array of synced entities (can contain base classes)
-
-			class LocationArea_F
-			{
-				description[] = { // Multi-line descriptions are supported
-					"This module initalizes OCAP and starts recording.",
-					"Should be synced with a trigger or set to activate at mission start."
-				};
-				position = 0; // Position is taken into effect
-				direction = 0; // Direction is taken into effect
-				optional = 1; // Synced entity is optional
-				duplicate = 1; // Multiple entities of this type can be synced
 			};
 		};
 	};
