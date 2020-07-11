@@ -21,6 +21,7 @@ class CfgFunctions
 		{
 			file = "ocap\functions";
 			class init {};
+			class init_CBASettings{};
 			class exportData {};
 			class callExtension {};
 			class startCaptureLoop {};
@@ -32,6 +33,21 @@ class CfgFunctions
 			class eh_disconnected {};
 			class eh_connected {};
 		};
+	};
+};
+
+class Extended_PreInit_EventHandlers {
+    class ocap_pre_init_CBASettings {
+        init = "call ocap_fnc_init_CBASettings";
+    };
+};
+
+class CfgFactionClasses
+{
+	class NO_CATEGORY;
+	class ocap_category: NO_CATEGORY
+	{
+		displayName = "OCAP";
 	};
 };
 
