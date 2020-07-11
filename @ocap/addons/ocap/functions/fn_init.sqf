@@ -29,6 +29,11 @@ if(_activated and isServer) then {
 	ocap_captureFrameNo = 0; // Frame number for current capture
 	ocap_endFrameNo = 0;     // Frame number at end of mission
 
+	// Set CBA setting export path if module path is empty
+	if (ocap_exportPath == "") then {
+		ocap_exportPath = ocap_ModuleInit_ExportPath_default;
+		};
+	
 	// Add mission EHs
 	addMissionEventHandler ["EntityKilled", {
 		_victim = _this select 0;

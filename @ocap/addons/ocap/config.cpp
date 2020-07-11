@@ -99,9 +99,8 @@ class CfgVehicles
 			{
 				property = "ocap_ModuleInit_ExportPath";
 				displayName = "Export Filepath";
-				tooltip = "Absolute path to the OCAP web server root folder.";
+				tooltip = "This is where all mission tracks will be saved to. If left blank the value saved in the CBA settings will be used.";
 				typeName = "STRING";
-				defaultValue = "'C:/apache/htdocs/ocap/'";
 			};
 			class FrameDelay: Edit
 			{

@@ -187,7 +187,7 @@ namespace OCAPExporter
             {
                 string webRoot = args[2];
                 webRoot = AddMissingSlash(webRoot);
-                string transferFilepath = webRoot + "data/" + captureFilename;
+                string transferFilepath = webRoot + captureFilename;
 
                 try
                 {
@@ -203,7 +203,7 @@ namespace OCAPExporter
                         do
                         {
                             suffix++;
-                            transferFilepath = webRoot + "data/" + transferFilename + "_" + suffix + ".json";
+                            transferFilepath = webRoot + transferFilename + "_" + suffix + ".json";
                         } while (File.Exists(transferFilepath));
                         Log("Will rename the JSON to " + Path.GetFileName(transferFilepath));
                     }
