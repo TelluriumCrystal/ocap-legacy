@@ -8,7 +8,7 @@ class CfgPatches
 		url = "https://github.com/TelluriumCrystal/ocap-revived";
 		requiredversion = "1.68";
 		requiredAddons[] = {"A3_Functions_F", "cba_main"};
-		units[] = {"OCAP_ModuleInit"};
+		units[] = {};
 		weapons[] = {};
 	};
 };
