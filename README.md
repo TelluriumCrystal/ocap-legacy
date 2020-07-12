@@ -37,9 +37,13 @@ if (isServer) then {
 When the original development of OCAP was abandoned, the data collection/map data server was shut down. We are currently in the process of re-writing the application to facilitate running on a local server only. The tool is currently functional but is buggy and lacking features. We will continue to work on getting it into a more polished state.
 
  
-Now updated to be a standalone application using code from the following repo:
+Now updated to run as a standalone application using code from the following repo:
+
 https://github.com/cztomczak/phpdesktop
-Run ocap.exe to start the application. Press F5 to reset the application. A command window will automatically open/close with the application, and must remain open during use. 
+
+- Run ocap.exe to start the application. 
+- Press F5 to reset the application. 
+- A command window will automatically open/close with the application, and must remain open during use. 
  
 ## Credits
 
