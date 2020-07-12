@@ -1,8 +1,8 @@
+// Mod meta info
 class CfgPatches
 {
 	class OCAP
 	{
-		// Mod meta info
 		name = "OCAP";
 		author = "OCAP Team";
 		url = "https://github.com/TelluriumCrystal/ocap-revived";
@@ -13,6 +13,7 @@ class CfgPatches
 	};
 };
 
+// All functions to be loaded into the game
 class CfgFunctions
 {
 	class OCAP
@@ -20,28 +21,30 @@ class CfgFunctions
 		class null
 		{
 			file = "ocap\functions";
-			class init {};
-			class init_CBASettings{};
-			class exportData {};
-			class callExtension {};
-			class startCaptureLoop {};
-			class addEventHandlers {};
-			class log {};
-			class eh_killed {};
-			class eh_fired {};
-			class eh_hit {};
-			class eh_disconnected {};
-			class eh_connected {};
+			class init {};				// Initializes OCAP and starts recording
+			class init_CBASettings{};	// Sets up the custom CBA settings option
+			class exportData {};		// Stops recording and starts exporting data
+			class callExtension {};		// Calls the OCAP exporter .dll
+			class startCaptureLoop {};	// Starts the capture loop, which sustains itself afterwards
+			class addEventHandlers {};	// Adds event handlers to a specific unit
+			class log {};				// Writes a string to the screen and/or the .rpt file
+			class eh_killed {};			// Event handler for unit killed
+			class eh_fired {};			// Event handler for unit fired
+			class eh_hit {};			// Event handler for unit hit
+			class eh_disconnected {};	// Event handler for unit disconnected
+			class eh_connected {};		// Event handler for unit connected
 		};
 	};
 };
 
+// XEH event handlers
 class Extended_PreInit_EventHandlers {
     class ocap_pre_init_CBASettings {
         init = "call ocap_fnc_init_CBASettings";
     };
 };
 
+// OCAP Eden Editor module category
 class CfgFactionClasses
 {
 	class NO_CATEGORY;
@@ -51,6 +54,7 @@ class CfgFactionClasses
 	};
 };
 
+// Eden editor modules
 class CfgVehicles
 {
 	class Logic;
@@ -64,13 +68,12 @@ class CfgVehicles
 			class Checkbox;				// Default checkbox (returned value is Bool)
 			class CheckboxNumber;		// Default checkbox (returned value is Number)
 		};
-		
-		// Description base class
-		class ModuleDescription;
 	};
+
+	// OCAP initalization module
 	class OCAP_ModuleInit: Module_F
 	{
-		// Standard object definitions
+		// Standard module definitions
 		scope = 2; 						// Editor visibility; 2 will show it in the menu, 1 will hide it.
 		displayName = "OCAP Init"; 		// Name displayed in the menu
 		category = "ocap_category";		// Editor category ("NO_CATEGORY = "Misc")
@@ -81,10 +84,9 @@ class CfgVehicles
 		isDisposable = 1;				// 1 if modules is to be disabled once it's activated (i.e., repeated trigger activation won't work)
 		is3DEN = 0;						// 1 to run init function in Eden Editor as well
 
-		// Module attributes, uses https://community.bistudio.com/wiki/Eden_Editor:_Configuring_Attributes#Entity_Specific
+		// Module user configurable settings
 		class Attributes: AttributesBase
 		{
-			// Module specific arguments
 			class ExportPath: Edit
 			{
 				property = "ocap_ModuleInit_ExportPath";
@@ -127,17 +129,18 @@ class CfgVehicles
 		};
 	};
 
+	// OCAP export data module
 	class OCAP_ModuleExport: Module_F
 	{
-		// Standard object definitions
-		scope = 2; 						// Editor visibility; 2 will show it in the menu, 1 will hide it.
-		displayName = "OCAP Export"; 	// Name displayed in the menu
-		category = "ocap_category";		// Editor category ("NO_CATEGORY = "Misc")
-		function = "ocap_fnc_exportData";		// Name of function triggered once conditions are met
-		functionPriority = 1;			// Execution priority, modules with lower number are executed first. 0 is used when the attribute is undefined
-		isGlobal = 0;					// 0 for server only execution, 1 for global execution, 2 for persistent global execution
-		isTriggerActivated = 1;			// 1 for module waiting until all synced triggers are activated
-		isDisposable = 0;				// 1 if modules is to be disabled once it's activated (i.e., repeated trigger activation won't work)
-		is3DEN = 0;						// 1 to run init function in Eden Editor as well
+		// Standard module definitions
+		scope = 2; 						   // Editor visibility; 2 will show it in the menu, 1 will hide it.
+		displayName = "OCAP Export"; 	   // Name displayed in the menu
+		category = "ocap_category";		   // Editor category ("NO_CATEGORY = "Misc")
+		function = "ocap_fnc_exportData";  // Name of function triggered once conditions are met
+		functionPriority = 1;			   // Execution priority, modules with lower number are executed first. 0 is used when the attribute is undefined
+		isGlobal = 0;					   // 0 for server only execution, 1 for global execution, 2 for persistent global execution
+		isTriggerActivated = 1;			   // 1 for module waiting until all synced triggers are activated
+		isDisposable = 0;				   // 1 if modules is to be disabled once it's activated (i.e., repeated trigger activation won't work)
+		is3DEN = 0;						   // 1 to run init function in Eden Editor as well
 	};
 };
