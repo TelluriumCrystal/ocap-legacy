@@ -1,3 +1,5 @@
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/TelluriumCrystal/ocap-revived) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/TelluriumCrystal/ocap-revived?include_prereleases&label=pre-release) [![GitHub issues](https://img.shields.io/github/issues/TelluriumCrystal/ocap-revived)](https://github.com/TelluriumCrystal/ocap-revived/issues) [![GitHub license](https://img.shields.io/github/license/TelluriumCrystal/ocap-revived)](https://github.com/TelluriumCrystal/ocap-revived/blob/master/licence.txt)
+
 ![OCAP](https://i.imgur.com/4Z16B8J.png)
 
 **Operation Capture And Playback - REVIVED (BETA)**
