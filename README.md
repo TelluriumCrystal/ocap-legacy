@@ -1,4 +1,7 @@
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/TelluriumCrystal/ocap-revived) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/TelluriumCrystal/ocap-revived?include_prereleases&label=pre-release) [![GitHub issues](https://img.shields.io/github/issues/TelluriumCrystal/ocap-revived)](https://github.com/TelluriumCrystal/ocap-revived/issues) ![GitHub](https://img.shields.io/github/license/TelluriumCrystal/ocap-revived?color=g)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/TelluriumCrystal/ocap-revived)](https://github.com/TelluriumCrystal/ocap-revived/releases)
+[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/TelluriumCrystal/ocap-revived?include_prereleases&label=pre-release)](https://github.com/TelluriumCrystal/ocap-revived/releases)
+[![GitHub issues](https://img.shields.io/github/issues/TelluriumCrystal/ocap-revived)](https://github.com/TelluriumCrystal/ocap-revived/issues)
+[![GitHub license](https://img.shields.io/github/license/TelluriumCrystal/ocap-revived?color=g)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 ![OCAP](https://i.imgur.com/4Z16B8J.png)
 
