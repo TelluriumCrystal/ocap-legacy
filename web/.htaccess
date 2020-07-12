@@ -1,8 +1,0 @@
-<IfModule mod_deflate.c>
-	<Files *.json>
-		SetOutputFilter DEFLATE
-	</Files>
-</IfModule>
-<IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "*"
-</IfModule>
