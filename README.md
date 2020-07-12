@@ -46,3 +46,8 @@ When the original development of OCAP was abandoned, the data collection/map dat
 * [3 Commando Brigade](http://www.3commandobrigade.com/) for testing and moral-boosting.
 * [Leaflet](http://leafletjs.com/) - an awesome JS interactive map library.
 * Maca134 for his tutorial on [writing Arma extensions in C#](http://maca134.co.uk/tutorial/write-an-arma-extension-in-c-sharp-dot-net/).
+
+
+Original work copyright (C) 2016 Jamie Goodson (aka MisterGoodson) (goodsonjamie@yahoo.co.uk)
+
+Modified work copyright (C) 2020 OCAP Revived contributors
