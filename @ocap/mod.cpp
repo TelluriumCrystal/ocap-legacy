@@ -3,7 +3,7 @@ picture 	 = "logo_ocap.paa"; 		    	  					// Picture displayed from the expansi
 //logoSmall	 = "\Samples_F\Data_01\Logos\logo_small.paa";	    	// Display next to the item added by the mod
 //logo		 = "\Samples_F\Data_01\Logos\logo.paa";			    	// Logo displayed in the main menu
 //logoOver	 = "\Samples_F\Data_01\Logos\logoOver.paa";		    	// When the mouse is over, in the main menu
-actionName   = "Github"												// Text displayed on the "website" button
+actionName   = "Github";											// Text displayed on the "website" button
 action		 = "https://github.com/TelluriumCrystal/ocap-revived"; 	// Website URL, that can accessed from the expansions menu
 tooltipOwned = "Operational Capture and Playback";					// Tool tip displayed when the mouse is left over, in the main menu
 
