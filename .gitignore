@@ -1,10 +1,13 @@
 ## VISUAL STUDIO ##
 # NuGet Packages
 *.nupkg
+
 # The packages folder can be ignored because of Package Restore
 /extension/*/packages/*
+
 # except build/, which is used as an MSBuild target.
 !/extension/*/packages/build/
+
 # Build files can rebuilt in VS, so no need to track them
 /extension/**/bin/*
 /extension/**/obj/*
@@ -12,6 +15,7 @@
 
 ## ADDON ##
 @ocap/addons/*.pbo
+@ocap/*.dll
 
 ## MISSION JSONS ##
 web/data/*
