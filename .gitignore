@@ -12,3 +12,6 @@
 
 ## ADDON ##
 @ocap/addons/*.pbo
+
+## MISSION JSONS ##
+web/data/*
