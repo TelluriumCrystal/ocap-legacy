@@ -109,7 +109,7 @@ class CfgVehicles
 			{
 				property = "ocap_ModuleInit_EndCaptureOnNoPlayers";
 				displayName = "End Capture When No Players";
-				tooltip = "Automatically stop capture and export data if all players leave the server.";
+				tooltip = "Automatically stop capture and export data if all players leave the server. Note: no effect in singleplayer.";
 				typeName = "BOOL";
 				defaultValue = "false";
 			};

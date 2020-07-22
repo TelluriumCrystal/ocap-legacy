@@ -36,6 +36,11 @@ if(_activated and isServer) then {
 		ocap_exportPath = ocap_ModuleInit_ExportPath_default;
 	};
 
+	// Force end capture on no players to be false in singleplayer
+	if (!isMultiplayer) then {
+		ocap_endCaptureOnNoPlayers = false;
+	};
+
 	// Add mission event handlers and save ids to event handler array
 	ocap_missionEHs pushBack addMissionEventHandler ["EntityKilled", {_this call ocap_fnc_eh_entityKilled}];
 	ocap_missionEHs pushBack addMissionEventHandler ["EntityRespawned", {_this call ocap_fnc_eh_entityRespawned}];
