@@ -97,7 +97,7 @@ class CfgVehicles
 			};
 			class FrameDelay: Edit
 			{
-				property = "ocap_ModuleInit_FrameDelay";
+				property = "ocap_ModuleInit_CaptureDelay";
 				displayName = "Frame Delay";
 				tooltip = "Time in seconds to wait between each measurement. Lower = higher fidelity playback.";
 				typeName = "NUMBER";
