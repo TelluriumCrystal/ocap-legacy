@@ -30,7 +30,7 @@ if (_victim getVariable ["ocap_isInitialised", false] and  !(_victim getVariable
 	private _timestamp = serverTime;
 	private _victimId = _victim getVariable "ocap_id";
 	private _instigatorId = _instigator getVariable "ocap_id";
-	
+
 	// Make instigator ID empty string if null
 	if (isNull _instigatorId) then {_instigatorId = ""};
 
