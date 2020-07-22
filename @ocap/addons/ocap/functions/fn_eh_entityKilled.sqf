@@ -5,15 +5,15 @@
 	Mission event handler for "EntityKilled". Builds a capture string for an entity being killed
 	and adds it to the capture array. Also disables tracking for the killed entity if it is not a
 	vehicle.
-	
+
 	Paramaters:
 	_victim = [OBJECT] Entity killed
 	_killer = [OBJECT] Entity that killed the victim (vehicle or person)
 	_instigator = [OBJECT] Person that pulled the trigger
-	
+
 	Returns:
 	nil
-	
+
 	Author: TelluriumCrystal
 */
 
