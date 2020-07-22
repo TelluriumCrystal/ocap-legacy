@@ -17,7 +17,7 @@
 // Check if configured to export on mission end and if so export capture data
 if (ocap_endCaptureOnEndMission) then {
 
-	[] call ocap_fnc_exportData;
+	call ocap_fnc_exportData;
 
 	// Clear export capture on mission end in case MPEnded and Ended get called
 	ocap_endCaptureOnEndMission = false;

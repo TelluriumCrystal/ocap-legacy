@@ -50,7 +50,7 @@ if(_activated and isServer) then {
 	ocap_missionEHs pushBack addMissionEventHandler ["MPEnded", {_this call ocap_fnc_eh_ended}];
 
 	// Start position capture and export loop
-	[] spawn ocap_fnc_startCaptureLoop;
+	spawn ocap_fnc_captureLoop;
 };
 
 nil
