@@ -29,7 +29,7 @@ class CfgFunctions
 			class startCaptureLoop {};	// Starts the capture loop, which sustains itself afterwards
 			class addEventHandlers {};	// Adds event handlers to a specific unit
 			class log {};				// Writes a string to the screen and/or the .rpt file
-			class eh_killed {};			// Event handler for unit killed
+			class eh_entityKilled {};	// Event handler for unit killed
 			class eh_fired {};			// Event handler for unit fired
 			class eh_hit {};			// Event handler for unit hit
 			class eh_disconnected {};	// Event handler for unit disconnected
