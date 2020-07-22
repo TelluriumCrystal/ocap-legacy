@@ -3,7 +3,8 @@
 
 	Description:
 	Mission event handler for "EntityKilled". Builds a capture string for an entity being killed
-	and adds it to the capture array.
+	and adds it to the capture array. Also disables tracking for the killed entity if it is not a
+	vehicle.
 	
 	Paramaters:
 	_victim = [OBJECT] Entity killed
