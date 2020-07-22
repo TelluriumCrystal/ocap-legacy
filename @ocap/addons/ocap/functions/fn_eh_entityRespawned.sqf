@@ -19,7 +19,7 @@
 _this params ["_newEntity", "_oldEntity"];
 
 // Check if entity is initiliased with OCAP and isn't marked as excluded from capture
-if (_oldEntity getVariable ["ocap_isInitialised", false] and  !(_oldEntity getVariable ["ocap_exclude", false])) then {
+if (ocap_enableCapture and _oldEntity getVariable ["ocap_isInitialised", false] and  !(_oldEntity getVariable ["ocap_exclude", false])) then {
 
 	// Set up new entity with old entity ID
 	_newEntity setVariable ["ocap_isInitialised", true];

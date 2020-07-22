@@ -33,8 +33,9 @@ class CfgFunctions
 			class eh_entityRespawned {};	// Event handler for unit respawned
 			class eh_fired {};				// Event handler for unit fired
 			class eh_hit {};				// Event handler for unit hit
-			class eh_disconnected {};		// Event handler for unit disconnected
-			class eh_connected {};			// Event handler for unit connected
+			class eh_handleDisconnect {};	// Event handler for player disconnected
+			class eh_playerConnected {};	// Event handler for player connected
+			class eh_ended {};				// Event handler for mission ended
 		};
 	};
 };

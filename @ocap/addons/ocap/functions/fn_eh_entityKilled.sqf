@@ -20,7 +20,7 @@
 _this params ["_victim", "_killer", "_instigator"];
 
 // Check if entity is initiliased with OCAP and isn't marked as excluded from capture
-if (_victim getVariable ["ocap_isInitialised", false] and  !(_victim getVariable ["ocap_exclude", false])) then {
+if (ocap_enableCapture and _victim getVariable ["ocap_isInitialised", false] and  !(_victim getVariable ["ocap_exclude", false])) then {
 
 	// Handle road kill special cases which would cause instigator to be null
 	if (isNull _instigator) then {_instigator = UAVControl vehicle _killer select 0}; // UAV/UGV player operated road kill
