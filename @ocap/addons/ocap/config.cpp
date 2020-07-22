@@ -21,19 +21,20 @@ class CfgFunctions
 		class null
 		{
 			file = "ocap\functions";
-			class init {};				// Initializes OCAP and starts recording
-			class init_CBASettings{};	// Sets up the custom CBA settings option
-			class exportData {};		// Stops recording and starts exporting data
-			class exportDataWrapper{};  // Wrapper for exportData called by the export editor module
-			class callExtension {};		// Calls the OCAP exporter .dll
-			class startCaptureLoop {};	// Starts the capture loop, which sustains itself afterwards
-			class addEventHandlers {};	// Adds event handlers to a specific unit
-			class log {};				// Writes a string to the screen and/or the .rpt file
-			class eh_entityKilled {};	// Event handler for unit killed
-			class eh_fired {};			// Event handler for unit fired
-			class eh_hit {};			// Event handler for unit hit
-			class eh_disconnected {};	// Event handler for unit disconnected
-			class eh_connected {};		// Event handler for unit connected
+			class init {};					// Initializes OCAP and starts recording
+			class init_CBASettings {};		// Sets up the custom CBA settings option
+			class exportData {};			// Stops recording and starts exporting data
+			class exportDataWrapper {}; 	// Wrapper for exportData called by the export editor module
+			class callExtension {};			// Calls the OCAP exporter .dll
+			class startCaptureLoop {};		// Starts the capture loop, which sustains itself afterwards
+			class addEventHandlers {};		// Adds event handlers to a specific unit
+			class log {};					// Writes a string to the screen and/or the .rpt file
+			class eh_entityKilled {};		// Event handler for unit killed
+			class eh_entityRespawned {};	// Event handler for unit respawned
+			class eh_fired {};				// Event handler for unit fired
+			class eh_hit {};				// Event handler for unit hit
+			class eh_disconnected {};		// Event handler for unit disconnected
+			class eh_connected {};			// Event handler for unit connected
 		};
 	};
 };

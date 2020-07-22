@@ -4,15 +4,15 @@
 	Description:
 	Initialises OCAP global variables and mission event handlers.
 	Capture loop is automatically started once init completes.
-	
+
 	Paramaters:
 	_logic = [OBJECT] Module settings
 	_units = [LIST] List of affected units
 	_activated = [BOOL] True if the module is activated
-	
+
 	Returns:
 	nil
-	
+
 	Author: MisterGoodson, TelluriumCrystal
 */
 
@@ -32,26 +32,10 @@ if(_activated and isServer) then {
 	if (ocap_exportPath == "") then {
 		ocap_exportPath = ocap_ModuleInit_ExportPath_default;
 	};
-	
+
 	// Add mission event handlers
 	ocap_entityKilled_MEH = addMissionEventHandler ["EntityKilled", {_this call ocap_fnc_eh_entityKilled}];
-	
-	// Transfer ID from old unit to new unit
-	// Mark old body to now be excluded from capture
-	ocap_meh_entityRespawned = addMissionEventHandler ["EntityRespawned", {
-		_newEntity = _this select 0;
-		_oldEntity = _this select 1;
-
-		if (_oldEntity getVariable ["ocap_isInitialised", false]) then {
-			_newEntity setVariable ["ocap_isInitialised", true];
-			_id = _oldEntity getVariable "ocap_id";
-			_newEntity setVariable ["ocap_id", _id];
-			_newEntity setVariable ["ocap_exclude", false];
-			_oldEntity setVariable ["ocap_exclude", true]; // Exclude old body from capture
-
-			_newEntity call ocap_fnc_addEventHandlers;
-		};
-	}];
+	ocap_meh_entityRespawned = addMissionEventHandler ["EntityRespawned", {_this call ocap_fnc_eh_entityRespawned}];
 
 	ocap_meh_handleDisconnect = addMissionEventHandler["HandleDisconnect", {
 		_unit = _this select 0;
