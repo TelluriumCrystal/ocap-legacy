@@ -34,7 +34,7 @@ if(_activated and isServer) then {
 	};
 	
 	// Add mission event handlers
-	ocap_entityKilled_MEH = addMissionEventHandler ["EntityKilled", {_this call ocap_fnc_eh_entityKilled;}];
+	ocap_entityKilled_MEH = addMissionEventHandler ["EntityKilled", {_this call ocap_fnc_eh_entityKilled}];
 	
 	// Transfer ID from old unit to new unit
 	// Mark old body to now be excluded from capture
