@@ -29,12 +29,12 @@ if (_victim getVariable ["ocap_isInitialised", false] and  !(_victim getVariable
 	private _timestamp = serverTime;
 	private _victimId = _victim getVariable "ocap_id";
 	private _instigatorId = _instigator getVariable "ocap_id";
+	
+	// Make instigator ID empty string if null
+	if (isNull _instigatorId) then {_instigatorId = ""};
 
 	// Build capture string
-	private _captureString = format ["8;%1;%2", _timestamp, _victimId];
-
-	// Add instigator ID if it exists
-	if (!isNull _instigatorId) then { _captureString = format ["%1;%2", _captureString, _instigatorId]};
+	private _captureString = format ["8;%1;%2;%3", _timestamp, _victimId, _instigatorId];
 
 	// Append capture string to capture array
 	ocap_captureArray pushBack _captureString;
