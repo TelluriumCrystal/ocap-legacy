@@ -49,11 +49,11 @@ if (_victim getVariable ["ocap_isInitialised", false] and  !(_victim getVariable
 	if (!(_victim isKindOf "CAManBase")) then {
 		_victim setVariable ["ocap_exclude", true];
 	};
-	
+
 	// Debug message
 	if (ocap_debug) then {
 		systemChat format["OCAP: [%1] %2 (%3) was killed by %4 (%5)", _timestamp, name _victim, _victimId, name _instigator, _instigatorId];
-		debugLog format["OCAP: [%1] %2 (%3) was killed by %4 (%5)", _timestamp, name _victim, _victimId, name _instigator, _instigatorId];
+		diag_log format["OCAP: [%1] %2 (%3) was killed by %4 (%5)", _timestamp, name _victim, _victimId, name _instigator, _instigatorId];
 	};
 };
 
