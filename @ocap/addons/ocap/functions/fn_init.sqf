@@ -11,7 +11,7 @@
 	_activated = [BOOL] True if the module is activated
 	
 	Returns:
-	[BOOL] Value of '_activated', indicates if init was executed
+	nil
 	
 	Author: MisterGoodson, TelluriumCrystal
 */
@@ -81,5 +81,4 @@ if(_activated and isServer) then {
 	[] spawn ocap_fnc_startCaptureLoop;
 };
 
-// Return state of _activated - indicates if init ran or not
-_activated
+nil
