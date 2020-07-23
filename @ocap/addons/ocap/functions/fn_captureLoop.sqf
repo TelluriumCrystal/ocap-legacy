@@ -157,7 +157,7 @@ while {true} do {
 	} forEach (allUnits + (entities "LandVehicle") + (entities "Ship") + (entities "Air"));
 
 	// Export capture data to temp file
-	[1] call ocap_fnc_callExtension;
+	[2] call ocap_fnc_callExtension;
 
 	// Debug message
 	if (ocap_debug) then {
@@ -171,6 +171,11 @@ while {true} do {
 	// Handle case where number of players <= 0
 	if (ocap_endCaptureOnNoPlayers and count allPlayers <= 0) then {
 		diag_log "OCAP: no players on server, pausing capture and exporting";
+	};
+
+	// Execute capture delay, if any
+	if (!(ocap_captureDelay <= 0)) then {
+		sleep ocap_captureDelay;
 	};
 };
 

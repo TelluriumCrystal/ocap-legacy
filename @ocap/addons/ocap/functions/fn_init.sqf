@@ -22,6 +22,7 @@ _this params ["_logic", "_units", "_activated"];
 if(_activated and isServer) then {
 
 	// Define global variables
+	ocap_version = "0.7.0";														// OCAP version
 	ocap_enableCapture = true;													// Enables or disables the data capture
 	ocap_moduleEnableCapture = true;											// Mirrors the pause and resume module commands
 	ocap_captureArray = [];														// Array containing capture strings waiting to be saved to the .data file
@@ -49,6 +50,21 @@ if(_activated and isServer) then {
 	ocap_missionEHs pushBack ["PlayerConnected", addMissionEventHandler ["PlayerConnected", {_this call ocap_fnc_eh_playerConnected}];]
 	ocap_missionEHs pushBack ["Ended", addMissionEventHandler ["Ended", {_this call ocap_fnc_eh_ended}];]
 	ocap_missionEHs pushBack ["MPEnded", addMissionEventHandler ["MPEnded", {_this call ocap_fnc_eh_ended}];]
+
+	// Delete mission capture file if it already exists
+	[0] call ocap_fnc_callExtension;
+
+	// Create metadata and mission head capture strings and append to capture array
+	private _armaInfo = productVersion;
+	private _armaVersion = _armaInfo select 2;
+	private _userPlatform = _armaInfo select 6;
+	private _userArch = _armaInfo select 7;
+	private _captureString = format ["0;%1;%2;%3;%4", ocap_version, _armaVersion, _userPlatform, _userArch];
+	ocap_captureArray pushBack _captureString;
+	[2] call ocap_fnc_callExtension;
+	private _missionAuthor = getMissionConfigValue ["author", ""];
+	_captureString = format ["1;%1;%2;%3;", worldName, missionName, _missionAuthor, serverTime];
+	[1] call ocap_fnc_callExtension;
 
 	// Start position capture and export loop
 	spawn ocap_fnc_captureLoop;
