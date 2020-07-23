@@ -20,7 +20,7 @@ _this params ["_id", "_uid", "_name"];
 if (ocap_enableCapture) then {
 
 	// Get relevant data for capture
-	private _timestamp = serverTime;
+	private _timestamp = time;
 	private _playerName = _name;
 
 	// Build capture string
@@ -31,8 +31,8 @@ if (ocap_enableCapture) then {
 
 	// Debug message
 	if (ocap_debug) then {
-		systemChat format["OCAP: [%1] %2 connected", _timestamp, _playerName, name _newEntity, _entityId];
-		diag_log format["OCAP: [%1] %2 connected", _timestamp, _playerName, name _newEntity, _entityId];
+		systemChat format["OCAP: [%1] %2 connected", _timestamp, _playerName];
+		diag_log format["OCAP: [%1] %2 connected", _timestamp, _playerName];
 	};
 };
 

@@ -1,16 +1,32 @@
 /*
-	Author: MisterGoodson
+	Function: ocap_fnc_addEventHandlers
 
 	Description:
-	Adds fired/hit event handlers to given entity (unit/vehicle).
+	Adds event handlers to the given entity (unit/vehicle).
 
 	Parameters:
-	_this: OBJECT - Entity to add event handlers to.
+	_entity: [OBJECT] - Entity to add event handlers to
+
+	Returns:
+	nil
+
+	Author: MisterGoodson, TelluriumCrystal
 */
 
-_entity = _this;
+_this params ["_entity"];
 
-_firedEH = _entity addEventHandler ["Fired", {_this spawn ocap_fnc_eh_fired}];
-_hitEH = _entity addEventHandler ["Hit", {_this spawn ocap_fnc_eh_hit}];
+// General event handlers
+private _firedEH = _entity addEventHandler ["Fired", {_this spawn ocap_fnc_eh_fired}];
+private _hitEH = _entity addEventHandler ["MPHit", {_this call ocap_fnc_eh_mpHit}];
 
-_entity setVariable ["ocap_eventHandlers", [["Fired", _firedEH], ["Hit", _hitEH]]];
+// More event handlers if entity is a vehicle
+if (!(_entity isKindOf "CAManBase")) then {
+	
+	private _gotInEH = _entity addEventHandler ["GetIn", {_this call ocap_fnc_eh_gotIn}];
+	private _gotOutEH = _entity addEventHandler ["GetOut", {_this call ocap_fnc_eh_gotOut}];
+	_entity setVariable ["ocap_eventHandlers", [["Fired", _firedEH], ["MPHit", _hitEH], ["GetIn", _gotInEH], ["GetOut", _gotOutEH]]];
+} else {
+	_entity setVariable ["ocap_eventHandlers", [["Fired", _firedEH], ["MPHit", _hitEH]]];
+};
+
+nil

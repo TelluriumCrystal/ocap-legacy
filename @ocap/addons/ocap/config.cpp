@@ -23,7 +23,7 @@ class CfgFunctions
 			file = "ocap\functions";
 			class init {};					// Initializes OCAP and starts recording
 			class init_CBASettings {};		// Sets up the custom CBA settings option
-			class exportData {};			// Stops recording and starts exporting data
+			class exportData {};			// Stops recording and exports data, then shuts down OCAP
 			class exportDataWrapper {}; 	// Wrapper for exportData called by the export editor module
 			class callExtension {};			// Calls the OCAP exporter .dll
 			class captureLoop {};			// Starts the capture loop, which sustains itself afterwards
@@ -32,7 +32,8 @@ class CfgFunctions
 			class eh_entityKilled {};		// Event handler for unit killed
 			class eh_entityRespawned {};	// Event handler for unit respawned
 			class eh_fired {};				// Event handler for unit fired
-			class eh_hit {};				// Event handler for unit hit
+			class eh_firedImpact {};		// Event handler for bullet fired impacting something
+			class eh_mpHit {};				// Event handler for unit hit
 			class eh_handleDisconnect {};	// Event handler for player disconnected
 			class eh_playerConnected {};	// Event handler for player connected
 			class eh_ended {};				// Event handler for mission ended
@@ -96,20 +97,21 @@ class CfgVehicles
 				displayName = "Export Filepath";
 				tooltip = "This is where all mission tracks will be saved to. If left blank the value saved in the CBA settings will be used.";
 				typeName = "STRING";
+				defaultValue = "";
 			};
-			class FrameDelay: Edit
+			class CaptureDelay: Edit
 			{
 				property = "ocap_ModuleInit_CaptureDelay";
-				displayName = "Frame Delay";
+				displayName = "Capture Delay";
 				tooltip = "Time in seconds to wait between each measurement. Lower = higher fidelity playback. Can be set to 0 for maximum playback fidelity but may slow down scheduled scripts.";
 				typeName = "NUMBER";
 				defaultValue = "1";
 			};
-			class EndCaptureOnNoPlayers: Checkbox
+			class PauseCaptureOnNoPlayers: Checkbox
 			{
 				property = "ocap_ModuleInit_EndCaptureOnNoPlayers";
-				displayName = "End Capture When No Players";
-				tooltip = "Automatically pause capture and export data if all players leave the server. Note: no effect in singleplayer.";
+				displayName = "Pause Capture When No Players";
+				tooltip = "Automatically pause capture if all players leave the server. Note: no effect in singleplayer.";
 				typeName = "BOOL";
 				defaultValue = "false";
 			};

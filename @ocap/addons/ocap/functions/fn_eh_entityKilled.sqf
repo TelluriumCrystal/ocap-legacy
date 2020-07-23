@@ -27,12 +27,12 @@ if (ocap_enableCapture and _victim getVariable ["ocap_isInitialised", false] and
 	if (isNull _instigator) then {_instigator = _killer}; // Player driven vehicle road kill
 
 	// Get relevant data for capture
-	private _timestamp = serverTime;
+	private _timestamp = time;
 	private _victimId = _victim getVariable "ocap_id";
-	private _instigatorId = _instigator getVariable "ocap_id";
+	private _instigatorId = "";
 
-	// Make instigator ID empty string if null
-	if (isNull _instigatorId) then {_instigatorId = ""};
+	// Get instigator ID if instigator exists
+	if (!isNull _instigator) then {_instigatorId = _instigator getVariable "ocap_id"};
 
 	// Build capture string
 	private _captureString = format ["8;%1;%2;%3", _timestamp, _victimId, _instigatorId];
@@ -46,14 +46,20 @@ if (ocap_enableCapture and _victim getVariable ["ocap_isInitialised", false] and
 	} forEach (_victim getVariable "ocap_eventHandlers");
 
 	// Exclude victim's corpse from tracking if victim is not a vehicle
-	if (!(_victim isKindOf "CAManBase")) then {
+	if (_victim isKindOf "CAManBase") then {
 		_victim setVariable ["ocap_exclude", true];
 	};
 
 	// Debug message
 	if (ocap_debug) then {
-		systemChat format["OCAP: [%1] %2 (%3) was killed by %4 (%5)", _timestamp, name _victim, _victimId, name _instigator, _instigatorId];
-		diag_log format["OCAP: [%1] %2 (%3) was killed by %4 (%5)", _timestamp, name _victim, _victimId, name _instigator, _instigatorId];
+		private _victimName = "";
+		if (_victim isKindOf "CAManBase") then {
+			_victimName = name _victim;
+		} else {
+			_victimName = getText (configFile >> "CfgVehicles" >> typeOf _victim >> "displayName");
+		};
+		systemChat format["OCAP: [%1] %2 (%3) was killed by %4 (%5)", _timestamp, _victimName, _victimId, name _instigator, _instigatorId];
+		diag_log format["OCAP: [%1] %2 (%3) was killed by %4 (%5)", _timestamp, _victimName, _victimId, name _instigator, _instigatorId];
 	};
 };
 

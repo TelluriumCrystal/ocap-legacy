@@ -36,7 +36,7 @@ if (ocap_enableCapture and _oldEntity getVariable ["ocap_isInitialised", false] 
 	} forEach (_oldEntity getVariable "ocap_eventHandlers");
 
 	// Get relevant data for capture
-	private _timestamp = serverTime;
+	private _timestamp = time;
 	private _entityId = _newEntity getVariable "ocap_id";
 
 	// Build capture string

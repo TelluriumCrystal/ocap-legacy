@@ -16,7 +16,7 @@
 	Returns:
 	nil
 
-	Author: MisterGoodson, TelluriumCrystal
+	Author: TelluriumCrystal
 */
 
 // Scroll wheel commands for testing
@@ -38,7 +38,7 @@ while {true} do {
 	waitUntil {
 		if (ocap_moduleEnableCapture && !(ocap_endCaptureOnNoPlayers and count allPlayers <= 0)) then {
 			ocap_capture = true;
-		} else
+		} else {
 			ocap_capture = false;
 		};
 
@@ -52,9 +52,7 @@ while {true} do {
 	};
 
 	// Debug logging of capture time
-	if (ocap_debug) then {
-		private _captureStartTime = diag_tickTime;
-	};
+	private _captureStartTime = diag_tickTime;
 
 	{   // forEach (allUnits + (entities "LandVehicle") + (entities "Ship") + (entities "Air"))
 
@@ -67,7 +65,7 @@ while {true} do {
 				isNil {
 
 					// Get entity info
-					private _timestamp = serverTime;
+					private _timestamp = time;
 					private _entityId = _id;
 					_id = _id + 1;
 					private _entityType = 0; // 0 = AI, 1 = Player, 2 = Vehicle
@@ -85,7 +83,7 @@ while {true} do {
 						_entityName = getText (configFile >> "CfgVehicles" >> typeOf _x >> "displayName");
 					};
 					private _entityGroup = "";
-					if (!isNull group _x) {
+					if (!isNull group _x) then {
 						_entityGroup = groupID (group _x);
 					};
 					private _entitySide = (side _x) call BIS_fnc_sideID;
@@ -99,6 +97,7 @@ while {true} do {
 					ocap_captureArray pushBack _captureString;
 
 					// Set entity variables and add event handlers
+					_x setVariable ["ocap_isInitialised", true];
 					_x setVariable ["ocap_exclude", false];
 					_x setVariable ["ocap_id", _entityId];
 					_x call ocap_fnc_addEventHandlers;
@@ -125,8 +124,8 @@ while {true} do {
 
 					// Debug message
 					if (ocap_debug) then {
-						systemChat format["OCAP: [%1] Initalized %2 (%3) in %4 on %5 side", _timestamp, name _entityName, _entityId, _entityGroup, _entitySide call BIS_fnc_sideType];
-						diag_log format["OCAP: [%1] Initalized %2 (%3) in %4 on %5 side", _timestamp, name _entityName, _entityId, _entityGroup, _entitySide call BIS_fnc_sideType];
+						systemChat format["OCAP: [%1] Initalized %2 (%3) in %4 on %5 side", _timestamp, _entityName, _entityId, _entityGroup, _entitySide call BIS_fnc_sideType];
+						diag_log format["OCAP: [%1] Initalized %2 (%3) in %4 on %5 side", _timestamp, _entityName, _entityId, _entityGroup, _entitySide call BIS_fnc_sideType];
 					};
 				};
 			};
@@ -134,7 +133,7 @@ while {true} do {
 			// Grab entity position and add to capture array
 			// Enter atomic block
 			isNil {
-				private _timestamp = serverTime;
+				private _timestamp = time;
 				private _entityId = _x getVariable "ocap_id";
 				private _entityRawASL = getPosASL _x;
 				private _entityRawATL = getPosATL _x;
@@ -150,31 +149,37 @@ while {true} do {
 
 				// Debug message
 				if (ocap_debug) then {
-					diag_log format["OCAP: [%1] %2 (%3) is at [%4,%5] %6 ASL (%7 AGL) pointing at %8", _timestamp, name _entityName, _entityId, _entityPosX, _entityPosX, _entityElevASL, _entityElevAGL, _entityAzimuth];
+					private _entityName = "";
+					if (_x isKindOf "CAManBase") then {
+						_entityName = name _x;
+					} else {
+						_entityName = getText (configFile >> "CfgVehicles" >> typeOf _x >> "displayName");
+					};
+					diag_log format["OCAP: [%1] %2 (%3) is at [%4,%5] %6 ASL (%7 AGL) pointing at %8", _timestamp, _entityName, _entityId, _entityPosX, _entityPosY, _entityElevASL, _entityElevAGL, _entityAzimuth];
 				};
 			};
 		};
 	} forEach (allUnits + (entities "LandVehicle") + (entities "Ship") + (entities "Air"));
 
 	// Export capture data to temp file
-	[2] call ocap_fnc_callExtension;
+	2 call ocap_fnc_callExtension;
 
 	// Debug message
 	if (ocap_debug) then {
-		private _timestamp = serverTime;
+		private _timestamp = time;
 		private _captureEndTime = diag_tickTime;
-		private _captureDuration = _captureStartTime - _captureEndTime;
+		private _captureDuration = _captureEndTime - _captureStartTime;
 		systemChat format["OCAP: [%1] capture completed in %2s", _timestamp, _captureDuration];
 		diag_log format["OCAP: [%1] capture completed in %2s", _timestamp, _captureDuration];
 	};
 
 	// Handle case where number of players <= 0
 	if (ocap_endCaptureOnNoPlayers and count allPlayers <= 0) then {
-		diag_log "OCAP: no players on server, pausing capture and exporting";
+		diag_log "OCAP: no players on server, pausing capture";
 	};
 
 	// Execute capture delay, if any
-	if (!(ocap_captureDelay <= 0)) then {
+	if (ocap_captureDelay > 0) then {
 		sleep ocap_captureDelay;
 	};
 };
