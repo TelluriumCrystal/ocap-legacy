@@ -21,14 +21,16 @@ _this params ["_newEntity", "_oldEntity"];
 // Check if entity is initiliased with OCAP and isn't marked as excluded from capture
 if (ocap_enableCapture and _oldEntity getVariable ["ocap_isInitialised", false] and  !(_oldEntity getVariable ["ocap_exclude", false])) then {
 
-	// Set up new entity with old entity ID
-	_newEntity setVariable ["ocap_isInitialised", true];
-	_newEntity setVariable ["ocap_id", _oldEntity getVariable "ocap_id"];
-	_newEntity setVariable ["ocap_exclude", false];
-	_newEntity call ocap_fnc_addEventHandlers;
+	// If entity is a person, remove body from tracking and give new entity the same ocap ID
+	// Otherwise let the main loop assign a new ID to the vehicle because we want to track the positions of vehicle wrecks
+	if (_oldEntity isKindOf "CAManBase") then {
+		_newEntity setVariable ["ocap_isInitialised", true];
+		_newEntity setVariable ["ocap_id", _oldEntity getVariable "ocap_id"];
+		_newEntity setVariable ["ocap_exclude", false];
+		_newEntity call ocap_fnc_addEventHandlers;
+	};
 
-	// Exclude body/wreck from capture and remove event handlers
-	_oldEntity setVariable ["ocap_exclude", true];
+	// Remove event handlers from body/wreck
 	{
 		_oldEntity removeEventHandler _x;
 	} forEach (_oldEntity getVariable "ocap_eventHandlers");

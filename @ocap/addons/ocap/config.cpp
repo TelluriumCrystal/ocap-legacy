@@ -26,7 +26,7 @@ class CfgFunctions
 			class exportData {};			// Stops recording and starts exporting data
 			class exportDataWrapper {}; 	// Wrapper for exportData called by the export editor module
 			class callExtension {};			// Calls the OCAP exporter .dll
-			class startCaptureLoop {};		// Starts the capture loop, which sustains itself afterwards
+			class captureLoop {};			// Starts the capture loop, which sustains itself afterwards
 			class addEventHandlers {};		// Adds event handlers to a specific unit
 			class log {};					// Writes a string to the screen and/or the .rpt file
 			class eh_entityKilled {};		// Event handler for unit killed
@@ -101,7 +101,7 @@ class CfgVehicles
 			{
 				property = "ocap_ModuleInit_CaptureDelay";
 				displayName = "Frame Delay";
-				tooltip = "Time in seconds to wait between each measurement. Lower = higher fidelity playback.";
+				tooltip = "Time in seconds to wait between each measurement. Lower = higher fidelity playback. Can be set to 0 for maximum playback fidelity but may slow down scheduled scripts.";
 				typeName = "NUMBER";
 				defaultValue = "1";
 			};
@@ -109,7 +109,7 @@ class CfgVehicles
 			{
 				property = "ocap_ModuleInit_EndCaptureOnNoPlayers";
 				displayName = "End Capture When No Players";
-				tooltip = "Automatically stop capture and export data if all players leave the server. Note: no effect in singleplayer.";
+				tooltip = "Automatically pause capture and export data if all players leave the server. Note: no effect in singleplayer.";
 				typeName = "BOOL";
 				defaultValue = "false";
 			};
@@ -117,7 +117,7 @@ class CfgVehicles
 			{
 				property = "ocap_ModuleInit_EndCaptureOnEndMission";
 				displayName = "End Capture When Mission Ends";
-				tooltip = "Automatically stop capture and export data if the mission ends.";
+				tooltip = "Automatically export data if the mission ends.";
 				typeName = "BOOL";
 				defaultValue = "true";
 			};
@@ -125,7 +125,7 @@ class CfgVehicles
 			{
 				property = "ocap_ModuleInit_DebugMode";
 				displayName = "Debug Mode";
-				tooltip = "Enable debug mode. Generates verbose messages for debugging.";
+				tooltip = "Enable debug mode. Generates verbose messages for debugging and adds scroll menu commands to player for easier testing.";
 				typeName = "BOOL";
 				defaultValue = "false";
 			};
