@@ -44,6 +44,9 @@ if (ocap_enableCapture and _victim getVariable ["ocap_isInitialised", false] and
 	{
 		_victim removeEventHandler _x;
 	} forEach (_victim getVariable "ocap_eventHandlers");
+	{
+		_victim removeMPEventHandler _x;
+	} forEach (_victim getVariable "ocap_MPeventHandlers");
 
 	// Exclude victim's corpse from tracking if victim is not a vehicle
 	if (_victim isKindOf "CAManBase") then {

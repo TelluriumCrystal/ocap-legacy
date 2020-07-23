@@ -4,7 +4,7 @@
 	Description:
 	Main OCAP capture loop. Handles unit and vehicle initalization and position logging. Should
 	catch JIP players and spawned units. Can be paused by setting ocap_enableCapture to false.
-	Will automatically pause capture if ocap_endCaptureOnNoPlayers is true and player count is 0.
+	Will automatically pause capture if ocap_pauseCaptureOnNoPlayers is true and player count is 0.
 	Exports all capture data to the .data file at the end of each loop.
 
 	Note that while this function is intended to run on the scheduler there are parts that must be
@@ -36,7 +36,7 @@ while {true} do {
 
 	// Inhibit capture until player count is > 0 and current module command state is play
 	waitUntil {
-		if (ocap_moduleEnableCapture && !(ocap_endCaptureOnNoPlayers and count allPlayers <= 0)) then {
+		if (ocap_moduleEnableCapture && !(ocap_pauseCaptureOnNoPlayers and count allPlayers <= 0)) then {
 			ocap_capture = true;
 		} else {
 			ocap_capture = false;
@@ -174,7 +174,7 @@ while {true} do {
 	};
 
 	// Handle case where number of players <= 0
-	if (ocap_endCaptureOnNoPlayers and count allPlayers <= 0) then {
+	if (ocap_pauseCaptureOnNoPlayers and count allPlayers <= 0) then {
 		diag_log "OCAP: no players on server, pausing capture";
 	};
 

@@ -40,6 +40,9 @@ terminate ocap_mainLoop;
 		{
 			_unit removeEventHandler _x;
 		} forEach (_unit getVariable "ocap_eventHandlers");
+		{
+			_unit removeMPEventHandler _x;
+		} forEach (_unit getVariable "ocap_MPeventHandlers");
 		_unit setVariable ["ocap_isInitialised", nil];
 		_unit setVariable ["ocap_exclude", nil];
 		_unit setVariable ["ocap_id", nil];

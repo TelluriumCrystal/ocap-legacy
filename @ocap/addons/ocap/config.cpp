@@ -31,7 +31,6 @@ class CfgFunctions
 			class eh_entityKilled {};		// Event handler for unit killed
 			class eh_entityRespawned {};	// Event handler for unit respawned
 			class eh_fired {};				// Event handler for unit fired
-			class eh_firedImpact {};		// Event handler for bullet fired impacting something
 			class eh_mpHit {};				// Event handler for unit hit
 			class eh_handleDisconnect {};	// Event handler for player disconnected
 			class eh_playerConnected {};	// Event handler for player connected
@@ -96,7 +95,6 @@ class CfgVehicles
 				displayName = "Export Filepath";
 				tooltip = "This is where all mission tracks will be saved to. If left blank the value saved in the CBA settings will be used.";
 				typeName = "STRING";
-				defaultValue = "";
 			};
 			class CaptureDelay: Edit
 			{

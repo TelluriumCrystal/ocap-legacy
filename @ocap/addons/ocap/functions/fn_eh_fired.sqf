@@ -3,8 +3,8 @@
 
 	Description:
 	Event handler for "Fired". Builds a capture string for an entity firing a weapon
-	and stores that information on the bullet itself. A "EpeContact" event handler is
-	then hooked up to detect when the bullet hits something.
+	and adds it to the capture array. This function must be spawned because it needs
+	to wait for the bullet to impact.
 
 	Parameters:
 	_unit = [OBJECT] Unit that fired
@@ -15,10 +15,10 @@
 	_magazine = [STR] Magazine type that was used
 	_projectile = [OBJECT] The projectile that was fired
 	_gunner = [STR] Gunner whose weapon is firing
-	
+
 	Returns:
 	nil
-	
+
 	Author: TelluriumCrystal
 */
 
@@ -26,23 +26,33 @@ _this params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_pr
 
 // Check if entity is initiliased with OCAP and isn't marked as excluded from capture
 if (ocap_enableCapture and _unit getVariable ["ocap_isInitialised", false] and  !(_unit getVariable ["ocap_exclude", false])) then {
-	
-	// Get relevant data for capture and set up impact event handler
+
+	// Get relevant data for initial capture
 	private _timestamp = time;
 	private _unitId = _unit getVariable "ocap_id";
 	private _unitRawASL = getPosASL _unit;
 	private _unitPosX = _unitRawASL select 0;
 	private _unitPosY = _unitRawASL select 1;
-	private _impactEventHandler = _projectile addEventHandler ["EpeContact", {_this call ocap_fnc_eh_firedImpact}];
-	
-	// Store data in projectile object
-	_projectile setVariable ["shot_timestamp", _timestamp];
-	_projectile setVariable ["shot_unitId", _unitId];
-	_projectile setVariable ["shot_unitPosX", _unitPosX];
-	_projectile setVariable ["shot_unitPosY", _unitPosY];
-	_projectile setVariable ["shot_impactEventHandler", _impactEventHandler];
-	_projectile setVariable ["shot_weapon", _weapon];
-	_projectile setVariable ["shot_ammo", _ammo];
+	private _impactTimestamp = _timestamp;
+	private _impactPosX = _unitPosX;
+	private _impactPosY = _unitPosY;
+
+	// Wait for bullet do despawn
+	waitUntil {
+		if (isNull _projectile) exitWith {true};
+		// Enter atomic block
+		isNil {
+			_impactTimestamp = time;
+			private _impactRawASL = getPosASL _projectile;
+			_impactPosX = _impactRawASL select 0;
+			_impactPosY = _impactRawASL select 1;
+		};
+		false
+	};
+
+	// Build capture string and append to capture array
+	private _captureString = format ["10;%1;%2;%3;%4;%5;%6;%7;%8;%9", _unitId, _weapon, _ammo, _timestamp, _unitPosX, _unitPosY, _impactTimestamp, _impactPosX, _impactPosY];
+	ocap_captureArray pushBack _captureString;
 
 	// Debug message
 	if (ocap_debug) then {
@@ -52,8 +62,8 @@ if (ocap_enableCapture and _unit getVariable ["ocap_isInitialised", false] and  
 		} else {
 			_unitName = getText (configFile >> "CfgVehicles" >> typeOf _unit >> "displayName");
 		};
-		systemChat format["OCAP: [%1] %2 (%3) fired %4 with %5 at [%6, %7]", _timestamp, _unitName, _unitId, _ammo, _weapon, _unitPosX, _unitPosY];
-		diag_log format["OCAP: [%1] %2 (%3) fired %4 with %5 at [%6, %7]", _timestamp, _unitName, _unitId, _ammo, _weapon, _unitPosX, _unitPosY];
+		systemChat format["OCAP: [%1] %2 (%3) fired %4 with %5 from [%6, %7] and hit at [%8, %9] at %10", _timestamp, _unitName, _unitId, _ammo, _weapon, _unitPosX, _unitPosY, _impactPosX, _impactPosY, _impactTimestamp];
+		diag_log format["OCAP: [%1] %2 (%3) fired %4 with %5 from [%6, %7] and hit at [%8, %9] at %10", _timestamp, _unitName, _unitId, _ammo, _weapon, _unitPosX, _unitPosY, _impactPosX, _impactPosY, _impactTimestamp];
 	};
 };
 

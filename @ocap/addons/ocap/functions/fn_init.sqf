@@ -42,7 +42,7 @@ if(_activated and isServer) then {
 
 	// Force end capture on no players to be false in singleplayer
 	if (!isMultiplayer) then {
-		ocap_endCaptureOnNoPlayers = false;
+		ocap_pauseCaptureOnNoPlayers = false;
 	};
 
 	// Add mission event handlers and save ids to event handler array
