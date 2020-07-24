@@ -77,7 +77,7 @@ isNil {
 		} else {
 			_unitName = getText (configFile >> "CfgVehicles" >> typeOf _unit >> "displayName");
 		};
-		diag_log format["OCAP: Discarded Fired event handler that finsihed after OCAP shutdown for %1 (%2)", _unitName, _fired_unitId];
+		diag_log format["OCAP: Discarded Fired event handler that finished after OCAP shutdown for %1 (%2)", _unitName, _fired_unitId];
 	};
 };
 
