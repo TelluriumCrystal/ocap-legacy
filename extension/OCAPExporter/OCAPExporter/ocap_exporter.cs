@@ -19,36 +19,26 @@
 
     ==========================================================================================
 
-    Exports supplied capture JSON string into a JSON file.
-    JSON string can (and should) be supplied in multiple separate calls to this extension (as to avoid the Arma buffer limit).
-    This extension also handles transferring of JSON file to a local location.
+    Builds and exports a data file in a custom format to a remote directory.
+    Has 4 operating modes specified by the first character passed to the extension. Modes 1
+    and 2 will create the temp file if it is not found. Modes 0, 1, and 2 will create the temp
+    directory if it is not found.
  
-    Extension argument string can be 1 of 3 forms.
-    f1:
-         {"head";arg1,arg2,arg3,arg4;arg5;arg6;arg7}
-         "head" = Tells the extension to write the JSON header
-         arg1   = Filename to write/append to /tmp (e.g. "myfile.json")
-         arg2   = Name of the map
-         arg3   = Name of the mission
-         arg4   = Name of the mission author
-         arg5   = Duration of the mission
-         arg6   = Frame capture delay
-         arg7   = End frame number
-    f2:
-         {"write";arg1}string
-         "write" = Tells the extension to write json_string_part to a file (in /tmp)
-         arg1    = Filename to write/append to /tmp (e.g. "myfile.json")
-         string  = Partial json string to be written to the file
-    f3:
-         {"transfer";arg1;arg2}
-         "transfer" = Tells the extension we wish to transfer the json file to a local directory
-         arg1       = Filename to move from /tmp (e.g. "myfile.json")
-         arg2       = Absolute path to directory where JSON file should be moved to
+    Operating modes:
+    0:  Deletes the temporary file
+
+    1:  Writes the mission head capture string to the temp file. This mode is distinct from
+        mode 2 because the Arma 3 scripting engine does not have a means of getting the
+        current date and time.
+
+    2:  Writes the passed capture string to the temp file.
+
+    3:  Exports the temp file to the specified directory and with the specified filename. The
+        filename and directory are passed in that order delimited by a ';'.
 */
 
 using RGiesecke.DllExport;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -57,9 +47,12 @@ namespace OCAPExporter
 {
     public class Main
     {
-        const string version = "0.6.0";
-        const string logfile = "ocap_exporter.log";
-
+        const string version = "0.7.0";
+        const string logFilePath = "ocap_exporter.log";
+        const string tempDirectory = @"Temp\";
+        const string tempFilePath = tempDirectory + "temp.data";
+        const string dataFileExtension = ".data";
+        
 #if WIN64
         [DllExport("RVExtensionVersion", CallingConvention = CallingConvention.Winapi)]
 #else
@@ -84,186 +77,150 @@ namespace OCAPExporter
 #endif
         public static void RVExtension(StringBuilder output, int outputSize, [MarshalAs(UnmanagedType.LPStr)] string function)
         {
-            // Grab arguments from function string (arguments are wrapped in curly brackets).
-            // e.g. {arg1;arg2;arg3}restOfFunctionString
-            char c = new char();
-            int index = 0;
-            List<String> args = new List<String>();
-            String arg = "";
+            string input = function;
 
-            // Very crude parser
-            // TODO: Use better parser that doesn't break when a '{' or '}' char exists in one of the args
-            //Log("Arguments supplied: " + function);
-            Log("Parsing arguments...");
-            while (c != '}')
+            // Strip first char off input to get operating mode
+            int opMode = (int)char.GetNumericValue(input[0]);
+            input = input.Substring(1);
+
+            // Create temp directory if not already exists
+            if (!Directory.Exists(tempDirectory))
             {
-                index++;
-                c = function[index];
-
-                if (c != ';' && c != '}')
-                {
-                    arg += c;
-                }
-                else
-                {
-                    args.Add(arg);
-                    arg = "";
-                }
-            }
-            Log("Done.");
-
-            // Define variables (from args)
-            string option = args[0];
-            string captureFilename = args[1];
-            string tempDir = @"Temp\";
-            string captureFilepath = tempDir + captureFilename; // Relative path where capture file will be written to
-
-            // Remove arguments from function string
-            function = function.Remove(0, index + 1);
-
-            // Write JSON header
-            if (option.Equals("head"))
-            {
-                string worldName = args[2];
-                string missionName = args[3];
-                string missionAuthor = args[4];
-                string missionDuration = args[5];
-                string captureDelay = args[6];
-                string endFrame = args[7];
-
-                DateTime now = DateTime.Now;
-                string missionDateTime = DateTime.Now.ToString("dd/MM/yyyy H:mm:ss");
-
                 try
                 {
-                    // Create temp directory if not already exists
-                    if (!Directory.Exists(tempDir))
-                    {
-                        Log("Temp directory not found, creating...");
-                        Directory.CreateDirectory(tempDir);
-                        Log("Done.");
-                    }
-
-                    // Create file to write to (if not exists)
-                    if (File.Exists(captureFilepath))
-                    {
-                        Log("Capture file already exists! Did the exporter not finish successfully last time? Deleting and recreating file " + captureFilepath + "...");
-                        File.Delete(captureFilepath);
-                        File.Create(captureFilepath).Close();
-                        Log("Done.");
-                    }
-                    else
-                    {
-                        Log("Creating capture file at " + captureFilepath + "...");
-                        File.Create(captureFilepath).Close();
-                        Log("Done.");
-                    }
-
-                    // Append to file
-                    File.AppendAllText(captureFilepath, String.Format("{{\"worldName\":\"{0}\", \"missionName\":\"{1}\", \"missionAuthor\":\"{2}\", \"missionDuration\":\"{3}\", \"missionDate\":\"{4}\", \"captureDelay\":\"{5}\", \"endFrame\":\"{6}\"",
-                        worldName, missionName, missionAuthor, missionDuration, missionDateTime, captureDelay, endFrame));
-                    Log("Wrote head to capture file.");
+                    Log("Temp directory not found, creating " + tempDirectory);
+                    Directory.CreateDirectory(tempDirectory);
                 }
                 catch (Exception e)
                 {
                     Log(e.ToString());
+                    return;
                 }
             }
 
-            // Write string to JSON file
-            else if (option.Equals("write"))
+            switch (opMode)
             {
-                try
-                {
-                    // Create temp directory if not already exists
-                    if (!Directory.Exists(tempDir))
+                // Delete temporary file
+                case 0:
+                    try
                     {
-                        Log("Temp directory not found, creating...");
-                        Directory.CreateDirectory(tempDir);
-                        Log("Done.");
+                        Log("Deleting temporary file");
+                        File.Delete(tempFilePath);
                     }
-
-                    // Create file to write to (if not exists)
-                    if (!File.Exists(captureFilepath))
+                    catch (Exception e)
                     {
-                        Log("Capture file not found! Did the exporter fail to create a header? Creating new (probably broken) file at " + captureFilepath + "...");
-                        File.Create(captureFilepath).Close();
-                        Log("Done.");
+                        Log(string.Format("Error: {0}", e.ToString()));
+                        return;
                     }
+                    break;
 
-                    // Append to file
-                    File.AppendAllText(captureFilepath, function);
-                    Log("Appended capture data to capture file.");
-                }
-                catch (Exception e)
-                {
-                    Log(e.ToString());
-                }
-            }
+                // Write mission head line to file
+                case 1:
+                    string missionDateTime = DateTime.Now.ToString("dd/MM/yyyy H:mm:ss");
+                    input += missionDateTime;
 
-            // Export JSON file to local server
-            else if (option.Equals("transfer"))
-            {
-                string webRoot = args[2];
-                webRoot = AddMissingSlash(webRoot);
-                string transferFilepath = webRoot + captureFilename;
-
-                try
-                {
-                    // Check if JSON file with same name already exists
-                    if (File.Exists(transferFilepath))
+                    try
                     {
-                        Log(transferFilepath + " already exists!");
-                        // Strip suffix off filepath so we can add an increment to the name 
-                        string transferFilename = Path.GetFileNameWithoutExtension(transferFilepath);
-
-                        // Keep incrementing a suffix number until an unused filename is found
-                        int suffix = 0;
-                        do
+                        // Create file if it doesn't exist
+                        if (!File.Exists(tempFilePath))
                         {
-                            suffix++;
-                            transferFilepath = webRoot + transferFilename + "_" + suffix + ".json";
-                        } while (File.Exists(transferFilepath));
-                        Log("Will rename the JSON to " + Path.GetFileName(transferFilepath));
+                            Log("Capture file doesn't exist. Creating file " + tempFilePath);
+                            File.Create(tempFilePath).Close();
+                        }
+
+                        // Write to file
+                        File.AppendText(input + Environment.NewLine);
+                    }
+                    catch (Exception e)
+                    {
+                        Log(e.ToString());
+                        return;
+                    }
+                    break;
+
+                // Write single line to file
+                case 2:
+                    try
+                    {
+                        // Create file if it doesn't exist
+                        if (!File.Exists(tempFilePath))
+                        {
+                            Log("Capture file doesn't exist. Creating file " + tempFilePath);
+                            File.Create(tempFilePath).Close();
+                        }
+
+                        // Write to file
+                        File.AppendText(input + Environment.NewLine);
+                    }
+                    catch (Exception e)
+                    {
+                        Log(e.ToString());
+                        return;
+                    }
+                    break;
+
+                // Export temporary file to specified path
+                case 3:
+
+                    // Parse information from input
+                    string[] args = input.Split(';');
+                    string transferFilename = args[0];
+                    string transferDirectory = args[1];
+
+                    // Handle missing "/"
+                    if (transferDirectory[transferDirectory.Length - 1] != '\\' || transferDirectory[transferDirectory.Length - 1] != '/')
+                    {
+                        transferDirectory += '\\';
                     }
 
-                    // Move JSON file from /Temp to transferPath
-                    Log("Moving " + captureFilename + " to " + transferFilepath + "...");
-                    File.Move(captureFilepath, transferFilepath);
-                    Log("Done");
+                    string transferFilePath = transferDirectory + transferFilename + dataFileExtension;
 
-                    // Delete original JSON from /Temp
-                    Log("Deleting " + captureFilename + " from \\Temp...");
-                    File.Delete(captureFilepath);
-                    Log("Done");
-                }
-                catch (Exception e)
-                {
-                    Log(e.ToString());
-                }
-            }
+                    try
+                    {
 
-            // Unknown option passed to .dll
-            else
-            {
-                Log("Unknown option passed from fn_callExtension!");
+                        // Check if temp file exists
+                        if (!File.Exists(tempFilePath))
+                        {
+                            Log("Error: " + tempFilePath + " does not exist, unable to export data!");
+                            return;
+                        }
+
+                        // Check if data file with same name already exists at export directory
+                        if (File.Exists(transferFilePath))
+                        {
+                            Log(transferFilePath + " already exists!");
+
+                            // Keep incrementing a suffix number until an unused filename is found
+                            int suffix = 0;
+                            do
+                            {
+                                suffix++;
+                                transferFilePath = transferDirectory + transferFilename + "_" + suffix + dataFileExtension;
+                            } while (File.Exists(transferFilePath));
+                            Log("Will rename the file to " + Path.GetFileName(transferFilePath));
+                        }
+
+                        // Move file from temp directory to remote directory
+                        Log("Moving " + tempFilePath + " to " + transferFilePath);
+                        File.Move(tempFilePath, transferFilePath);
+                    }
+                    catch (Exception e)
+                    {
+                        Log(e.ToString());
+                    }
+                    break;
+
+                // All other opModes are erronous
+                default:
+                    Log(string.Format("Exporter passed invalid opMode {0}", opMode));
+                    break;
             }
         }
 
         public static void Log(string str)
         {
-            File.AppendAllText(logfile, DateTime.Now.ToString("dd/MM/yyyy H:mm:ss | ") + str + Environment.NewLine);
+            File.AppendAllText(logFilePath, DateTime.Now.ToString("dd/MM/yyyy H:mm:ss | ") + str + Environment.NewLine);
             Console.WriteLine(str);
-        }
-
-        public static string AddMissingSlash(string str)
-        {
-            if (!str.EndsWith("/"))
-            {
-                str += "/";
-            }
-
-            return str;
         }
     }
 }
