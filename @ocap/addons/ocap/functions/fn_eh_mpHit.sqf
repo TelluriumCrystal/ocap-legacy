@@ -46,8 +46,12 @@ if (isServer) then {
 			} else {
 				_unitName = getText (configFile >> "CfgVehicles" >> typeOf _unit >> "displayName");
 			};
-			systemChat format["OCAP: [%1] %2 (%3) was hit by %4 (%5)", _timestamp, _unitName, _unitId, name _instigator, _instigatorId];
-			diag_log format["OCAP: [%1] %2 (%3) was hit by %4 (%5)", _timestamp, _unitName, _unitId, name _instigator, _instigatorId];
+			private _instigatorName = "something";
+			if (!isNull _instigator) then {
+				_instigatorName = name _instigator;
+			};
+			systemChat format["OCAP: [%1] %2 (%3) was hit by %4 (%5)", _timestamp, _unitName, _unitId, _instigatorName, _instigatorId];
+			diag_log format["OCAP: [%1] %2 (%3) was hit by %4 (%5)", _timestamp, _unitName, _unitId, _instigatorName, _instigatorId];
 		};
 	};
 };
