@@ -44,7 +44,7 @@ switch (_mode) do {
 	};
 	case 3: {
 		// Export temp file
-		"ocap_exporter" callExtension format["3%1", ocap_exportPath];
+		"ocap_exporter" callExtension format["3%1;%2", missionName, ocap_exportPath];
 	};
 };
 
