@@ -62,7 +62,6 @@ if(_activated and isServer) then {
 		// ACE3 medical unconscious event hander
 		if (ocap_ace3Present) then {
 			diag_log "OCAP: found ACE3, will include detection of unconsciousness";
-			//ocap_fnc_eh_aceUnconscious = call compileFinal preprocessFileLineNumbers "functions\fn_eh_aceUnconscious.sqf";
 			ocap_eh_aceUnconscious = ["ace_unconscious", ocap_fnc_eh_aceUnconscious] call CBA_fnc_addEventHandler;
 		};
 
