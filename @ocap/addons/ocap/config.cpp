@@ -33,6 +33,8 @@ class CfgFunctions
 			class eh_fired {};				// Event handler for unit fired
 			class eh_firedTracker {};		// Event handler for tracking a bullet a unit fired (spawned by eh_fired)
 			class eh_mpHit {};				// Event handler for unit hit
+			class eh_gotIn {};				// Event handler for unit got in a vehicle
+			class eh_gotOut {};				// Event handler for unit got out of a vehicle
 			class eh_handleDisconnect {};	// Event handler for player disconnected
 			class eh_playerConnected {};	// Event handler for player connected
 			class eh_ended {};				// Event handler for mission ended
