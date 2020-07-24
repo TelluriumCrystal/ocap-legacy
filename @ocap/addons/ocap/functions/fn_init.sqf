@@ -23,6 +23,7 @@ if(_activated and isServer) then {
 
 	// Define global variables
 	ocap_version = "0.7.0";														 // OCAP version
+	ocap_ace3Present = isClass (configFile >> "CfgPatches" >> "ace_medical");	 // True if ACE3 medical is present
 	ocap_enableCapture = true;													 // Enables or disables the data capture
 	ocap_moduleEnableCapture = true;											 // Mirrors the pause and resume module commands
 	ocap_captureArray = [];														 // Array containing capture strings waiting to be saved to the .data file
@@ -54,10 +55,10 @@ if(_activated and isServer) then {
 	ocap_missionEHs pushBack ["MPEnded", addMissionEventHandler ["MPEnded", {_this call ocap_fnc_eh_ended}]];
 
 	// ACE3 medical unconscious event hander
-	if (isClass (configFile >> "CfgPatches" >> "ace_medical")) then {
+	if (ocap_ace3Present) then {
 		diag_log "OCAP: found ACE3, will include detection of unconsciousness";
-		ocap_fnc_eh_aceUnconscious = call compileFinal preprocessFileLineNumbers "fn_eh_aceUnconscious.sqf";
-		ocap_eh_aceUnconscious = ["ace_unconscious", ocap_eh_aceUnconsciousFunction] call CBA_fnc_addEventHandler;
+		//ocap_fnc_eh_aceUnconscious = call compileFinal preprocessFileLineNumbers "functions\fn_eh_aceUnconscious.sqf";
+		ocap_eh_aceUnconscious = ["ace_unconscious", ocap_fnc_eh_aceUnconscious] call CBA_fnc_addEventHandler;
 	};
 
 	// Delete mission capture file if it already exists

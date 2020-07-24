@@ -27,6 +27,7 @@ class CfgFunctions
 			class callExtension {};			// Calls the OCAP exporter .dll
 			class captureLoop {};			// Starts the capture loop, which sustains itself afterwards
 			class addEventHandlers {};		// Adds event handlers to a specific unit
+			class eh_aceUnconscious {};
 			class eh_entityKilled {};		// Event handler for unit killed
 			class eh_entityRespawned {};	// Event handler for unit respawned
 			class eh_fired {};				// Event handler for unit fired

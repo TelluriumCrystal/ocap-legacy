@@ -50,12 +50,13 @@ terminate ocap_mainLoop;
 		_unit setVariable ["ocap_MPeventHandlers", nil];
 	};
 } forEach (allUnits + (entities "LandVehicle") + (entities "Ship") + (entities "Air"));
-if (!isNil {ocap_eh_aceUnconscious}) then {
+if (ocap_ace3Present) then {
 	["ace_unconscious", ocap_eh_aceUnconscious] call CBA_fnc_removeEventHandler;
 };
 
 // Uninstantiate all global variables
 ocap_version = nil;
+ocap_ace3Present = nil;
 ocap_enableCapture = nil;
 ocap_moduleEnableCapture = nil;
 ocap_captureArray = nil;
