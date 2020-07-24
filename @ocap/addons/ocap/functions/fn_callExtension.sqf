@@ -28,36 +28,24 @@ params ["_mode"];
 switch (_mode) do {
     case 0: {
 		// Delete temp file
-		/*_worldName = worldName;
-		_missionName = briefingName;
-		_missionAuthor = getMissionConfigValue ["author", ""];
-		_missionDuration = ocap_endFrameNo * ocap_frameCaptureDelay; // Duration of mission (seconds)
-
-		"ocap_exporter" callExtension format["{head;%1;%2;%3;%4;%5;%6;%7}",
-			ocap_exportCapFilename,
-			_worldName,
-			_missionName,
-			_missionAuthor,
-			_missionDuration,
-			ocap_frameCaptureDelay,
-			ocap_endFrameNo
-		];*/
+		"ocap_exporter" callExtension format["0"];
 	};
 	case 1: {
 		// Write mission head capture string
-		// "ocap_exporter" callExtension format["{write;%1}%2", ocap_exportCapFilename, _string];
+		"ocap_exporter" callExtension format["1%1", ocap_captureArray select 0];
 		ocap_captureArray = [];
 	};
     case 2: {
 		// Write contents of capture array to temp file
-		// "ocap_exporter" callExtension format["{write;%1}%2", ocap_exportCapFilename, _string];
+		{
+			"ocap_exporter" callExtension format["2%1", _x];
+		} forEach ocap_captureArray;
 		ocap_captureArray = [];
 	};
 	case 3: {
 		// Export temp file
-		/*"ocap_exporter" callExtension format["{transfer;%1;%2}",
-			ocap_exportCapFilename,
-			ocap_exportPath
-		];*/
+		"ocap_exporter" callExtension format["3%1", ocap_exportPath];
 	};
 };
+
+nil
