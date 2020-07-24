@@ -32,9 +32,10 @@ if (ocap_enableCapture and _unit getVariable ["ocap_isInitialised", false] and  
 	private _unitRawASL = getPosASL _unit;
 	private _unitPosX = _unitRawASL select 0;
 	private _unitPosY = _unitRawASL select 1;
+	private _weaponName = getText (configFile >> "CfgWeapons" >> _weapon >> "displayName");
 
 	// Spawn bullet tracking script
-	[_unit, _projectile, _timestamp, _unitId, _weapon, _ammo, _unitPosX, _unitPosY] spawn ocap_fnc_eh_firedTracker;
+	[_unit, _projectile, _timestamp, _unitId, _weaponName, _ammo, _unitPosX, _unitPosY] spawn ocap_fnc_eh_firedTracker;
 };
 
 nil
