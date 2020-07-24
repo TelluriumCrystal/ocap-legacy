@@ -17,7 +17,7 @@
 	Author: TelluriumCrystal
 */
 
-_this params ["_unit", "_causedBy", "_damage", "_instigator"];
+_this params ["_unit", "", "", "_instigator"];
 
 // Only run on server
 if (isServer) then {

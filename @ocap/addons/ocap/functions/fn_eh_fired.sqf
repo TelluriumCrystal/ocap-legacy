@@ -21,7 +21,7 @@
 	Author: TelluriumCrystal
 */
 
-_this params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
+_this params ["_unit", "_weapon", "", "", "_ammo", "", "_projectile", ""];
 
 // Check if OCAP is still running, entity is initiliased with OCAP, and isn't marked as excluded from capture
 if (ocap_enableCapture and _unit getVariable ["ocap_isInitialised", false] and  !(_unit getVariable ["ocap_exclude", false])) then {

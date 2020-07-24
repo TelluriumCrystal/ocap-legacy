@@ -17,7 +17,7 @@
 	Author: TelluriumCrystal
 */
 
-_this params ["_vehicle", "_role", "_unit", "_turret"];
+_this params ["_vehicle", "", "_unit", ""];
 
 // Check if unit and vehicle are initiliased with OCAP and neither is marked as excluded from capture
 if (ocap_enableCapture and _unit getVariable ["ocap_isInitialised", false] and _vehicle getVariable ["ocap_isInitialised", false]
@@ -36,9 +36,9 @@ if (ocap_enableCapture and _unit getVariable ["ocap_isInitialised", false] and _
 
 	// Debug message
 	if (ocap_debug) then {
-		private _vehicleName = getText (configFile >> "CfgVehicles" >> typeOf _x >> "displayName");
-		systemChat format["OCAP: [%1] %2 (%3) got out of %4 (%5)", _timestamp, name _unit, _crewId, _vehicleName, _vehicleId];
-		diag_log format["OCAP: [%1] %2 (%3) got out of %4 (%5)", _timestamp, name _unit, _crewId, _vehicleName, _vehicleId];
+		private _vehicleName = getText (configFile >> "CfgVehicles" >> typeOf _vehicle >> "displayName");
+		systemChat format["OCAP: [%1] %2 (%3) got out of %4 (%5)", _timestamp, name _unit, _unitId, _vehicleName, _vehicleId];
+		diag_log format["OCAP: [%1] %2 (%3) got out of %4 (%5)", _timestamp, name _unit, _unitId, _vehicleName, _vehicleId];
 	};
 };
 

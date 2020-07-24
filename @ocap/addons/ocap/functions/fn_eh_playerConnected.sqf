@@ -15,7 +15,7 @@
 	Author: TelluriumCrystal
 */
 
-_this params ["_id", "_uid", "_name"];
+_this params ["", "", "_name"];
 
 if (ocap_enableCapture) then {
 

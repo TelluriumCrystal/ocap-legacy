@@ -17,7 +17,7 @@
 */
 
 // Get Module settings
-_this params ["_logic", "_units", "_activated"];
+_this params ["_logic", "", "_activated"];
 
 if(_activated and isServer) then {
 
