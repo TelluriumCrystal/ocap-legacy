@@ -8,7 +8,7 @@
 	the main capture loop is terminated, and all missionNamespace variables are deinstantiated.
 
 	Note that this is a terminal function. OCAP must be reinitalized to resume capturing
-	data.
+	data. Because it has to wait for the main loop to stop this function should be spawned.
 
 	Params:
 	None
@@ -27,17 +27,20 @@ if (isNil {ocap_captureArray}) then {
 	// Log that export is starting
 	diag_log "OCAP: exporting all data to remote folder";
 	
+	// Terminate main capture loop
+	terminate ocap_mainLoop;
+	
+	// Wait for main loop to completely terminate
+	waitUntil { scriptDone ocap_mainLoop };
+	
 	// Create mission footer capture string and append to capture array
-	private _captureString = format ["2;%1", time];
+	private _captureString = format ["2;%1",  time];
 	ocap_captureArray pushBack _captureString;
 
 	// Export all data to remote folder
 	2 call ocap_fnc_callExtension;
 	3 call ocap_fnc_callExtension;
 	0 call ocap_fnc_callExtension;
-
-	// Terminate main capture loop
-	terminate ocap_mainLoop;
 
 	// Remove all event handlers
 	{

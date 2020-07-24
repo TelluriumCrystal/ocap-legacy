@@ -26,7 +26,7 @@ if (ocap_endCaptureOnEndMission) then {
 	};
 
 	// Export data
-	[] call ocap_fnc_exportData;
+	[] spawn ocap_fnc_exportData;
 };
 
 nil

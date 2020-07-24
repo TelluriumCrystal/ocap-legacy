@@ -21,10 +21,10 @@
 
 // Scroll wheel commands for testing
 if (ocap_debug) then {
-	player addAction ["Write saved data", {[] call ocap_fnc_exportData}];
+	player addAction ["Write saved data", {[] spawn ocap_fnc_exportData}];
 	player addAction ["End mission", {endMission "end1"}];
 	player addEventHandler ["Respawn", {
-		player addAction ["Write saved data", {[] call ocap_fnc_exportData}];
+		player addAction ["Write saved data", {[] spawn ocap_fnc_exportData}];
 		player addAction ["End mission", {endMission "end1"}];
 	}];
 };
