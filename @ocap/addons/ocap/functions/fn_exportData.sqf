@@ -19,57 +19,63 @@
 	Author: TelluriumCrystal
 */
 
-// Log that export is starting
-diag_log "OCAP: exporting all data to remote folder";
+// Check if OCAP is running
+if (isNil {ocap_captureArray}) then {
+	diag_log "OCAP: Error: exportData called but OCAP is not running!";
+} else {
 
-// Export all data to remote folder
-2 call ocap_fnc_callExtension;
-3 call ocap_fnc_callExtension;
-0 call ocap_fnc_callExtension;
+	// Log that export is starting
+	diag_log "OCAP: exporting all data to remote folder";
 
-// Terminate main capture loop
-terminate ocap_mainLoop;
+	// Export all data to remote folder
+	2 call ocap_fnc_callExtension;
+	3 call ocap_fnc_callExtension;
+	0 call ocap_fnc_callExtension;
 
-// Remove all event handlers
-{
-	removeMissionEventHandler _x;
-} forEach ocap_missionEHs;
-{
-	private _unit = _x;
-	if (_unit getVariable ["ocap_isInitialised", false]) then {
-		{
-			_unit removeEventHandler _x;
-		} forEach (_unit getVariable "ocap_eventHandlers");
-		{
-			_unit removeMPEventHandler _x;
-		} forEach (_unit getVariable "ocap_MPeventHandlers");
-		_unit setVariable ["ocap_isInitialised", nil];
-		_unit setVariable ["ocap_exclude", nil];
-		_unit setVariable ["ocap_id", nil];
-		_unit setVariable ["ocap_eventHandlers", nil];
-		_unit setVariable ["ocap_MPeventHandlers", nil];
+	// Terminate main capture loop
+	terminate ocap_mainLoop;
+
+	// Remove all event handlers
+	{
+		removeMissionEventHandler _x;
+	} forEach ocap_missionEHs;
+	{
+		private _unit = _x;
+		if (_unit getVariable ["ocap_isInitialised", false]) then {
+			{
+				_unit removeEventHandler _x;
+			} forEach (_unit getVariable "ocap_eventHandlers");
+			{
+				_unit removeMPEventHandler _x;
+			} forEach (_unit getVariable "ocap_MPeventHandlers");
+			_unit setVariable ["ocap_isInitialised", nil];
+			_unit setVariable ["ocap_exclude", nil];
+			_unit setVariable ["ocap_id", nil];
+			_unit setVariable ["ocap_eventHandlers", nil];
+			_unit setVariable ["ocap_MPeventHandlers", nil];
+		};
+	} forEach (allUnits + (entities "LandVehicle") + (entities "Ship") + (entities "Air"));
+	if (ocap_ace3Present) then {
+		["ace_unconscious", ocap_eh_aceUnconscious] call CBA_fnc_removeEventHandler;
 	};
-} forEach (allUnits + (entities "LandVehicle") + (entities "Ship") + (entities "Air"));
-if (ocap_ace3Present) then {
-	["ace_unconscious", ocap_eh_aceUnconscious] call CBA_fnc_removeEventHandler;
+
+	// Uninstantiate all global variables
+	ocap_version = nil;
+	ocap_ace3Present = nil;
+	ocap_enableCapture = nil;
+	ocap_moduleEnableCapture = nil;
+	ocap_captureArray = nil;
+	ocap_exportPath = nil;
+	ocap_captureDelay = nil;
+	ocap_endCaptureOnNoPlayers = nil;
+	ocap_endCaptureOnEndMission = nil;
+	ocap_debug = nil;
+	ocap_missionEHs = nil;
+	ocap_eh_aceUnconscious = nil;
+	ocap_mainLoop = nil;
+
+	// Log that OCAP is now shut down
+	diag_log "OCAP: exporting complete and OCAP has shut down";
 };
-
-// Uninstantiate all global variables
-ocap_version = nil;
-ocap_ace3Present = nil;
-ocap_enableCapture = nil;
-ocap_moduleEnableCapture = nil;
-ocap_captureArray = nil;
-ocap_exportPath = nil;
-ocap_captureDelay = nil;
-ocap_endCaptureOnNoPlayers = nil;
-ocap_endCaptureOnEndMission = nil;
-ocap_debug = nil;
-ocap_missionEHs = nil;
-ocap_eh_aceUnconscious = nil;
-ocap_mainLoop = nil;
-
-// Log that OCAP is now shut down
-diag_log "OCAP: exporting complete and OCAP has shut down";
 
 nil
