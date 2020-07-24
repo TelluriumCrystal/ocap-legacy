@@ -32,7 +32,7 @@ terminate ocap_mainLoop;
 
 // Remove all event handlers
 {
-	removeMissionEventHandler [_x select 0, _x select 1];
+	removeMissionEventHandler _x;
 } forEach ocap_missionEHs;
 {
 	private _unit = _x;
@@ -47,8 +47,9 @@ terminate ocap_mainLoop;
 		_unit setVariable ["ocap_exclude", nil];
 		_unit setVariable ["ocap_id", nil];
 		_unit setVariable ["ocap_eventHandlers", nil];
+		_unit setVariable ["ocap_MPeventHandlers", nil];
 	};
-} forEach (allUnits + allDead + (entities "LandVehicle") + (entities "Ship") + (entities "Air"));
+} forEach (allUnits + (entities "LandVehicle") + (entities "Ship") + (entities "Air"));
 if (!isNil {ocap_eh_aceUnconscious}) then {
 	["ace_unconscious", ocap_eh_aceUnconscious] call CBA_fnc_removeEventHandler;
 };

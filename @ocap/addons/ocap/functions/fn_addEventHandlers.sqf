@@ -16,7 +16,7 @@
 _this params ["_entity"];
 
 // General event handlers
-private _firedEH = _entity addEventHandler ["Fired", {_this spawn ocap_fnc_eh_fired}];
+private _firedEH = _entity addEventHandler ["Fired", {_this call ocap_fnc_eh_fired}];
 private _hitEH = _entity addMPEventHandler ["MPHit", {_this call ocap_fnc_eh_mpHit}];
 
 // More event handlers if entity is a vehicle
