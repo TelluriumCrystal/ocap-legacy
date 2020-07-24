@@ -129,7 +129,7 @@ namespace OCAPExporter
                         }
 
                         // Write to file
-                        File.AppendText(input + Environment.NewLine);
+                        File.AppendAllText(tempFilePath, input + Environment.NewLine);
                     }
                     catch (Exception e)
                     {
@@ -150,7 +150,7 @@ namespace OCAPExporter
                         }
 
                         // Write to file
-                        File.AppendText(input + Environment.NewLine);
+                        File.AppendAllText(tempFilePath, input + Environment.NewLine);
                     }
                     catch (Exception e)
                     {
