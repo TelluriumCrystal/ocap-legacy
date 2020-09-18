@@ -6,9 +6,11 @@
 	Capture loop is automatically started once init completes.
 
 	Paramaters:
-	_logic = [OBJECT] Module settings
-	_units = [LIST] List of affected units
-	_activated = [BOOL] True if the module is activated
+	_ocap_exportPath = [STR] Path to export capture file after export
+	_ocap_captureDelay = [NUM] Minimum delay in seconds between each capture
+	_ocap_pauseCaptureOnNoPlayers = [BOOL] True if capture should pause if no players are present
+	_ocap_endCaptureOnEndMission = [BOOL] True if the capture file should automatically be exported on mission end
+	_ocap_debug = [BOOL] True to enable debug log messages and commands
 
 	Returns:
 	nil
@@ -16,10 +18,9 @@
 	Author: MisterGoodson, TelluriumCrystal
 */
 
-// Get Module settings
-_this params ["_logic", "", "_activated"];
+_this params ["_ocap_exportPath", "_ocap_captureDelay", "_ocap_pauseCaptureOnNoPlayers", "_ocap_endCaptureOnEndMission", "_ocap_debug"];
 
-if(_activated and isServer) then {
+if(isServer) then {
 
 	// Check if OCAP is already running
 	if (!isNil {ocap_captureArray}) then {
@@ -32,11 +33,11 @@ if(_activated and isServer) then {
 		ocap_enableCapture = true;													 // Enables or disables the data capture
 		ocap_moduleEnableCapture = true;											 // Mirrors the pause and resume module commands
 		ocap_captureArray = [];														 // Array containing capture strings waiting to be saved to the .data file
-		ocap_exportPath = _logic getVariable "ExportPath";                           // Absolute path the mission.data file will be exported to
-		ocap_captureDelay = _logic getVariable "CaptureDelay";        				 // Minimum delay between each capture, may be exceeded if number of entities is high or scheduler is overloaded
-		ocap_pauseCaptureOnNoPlayers = _logic getVariable "PauseCaptureOnNoPlayers"; // Enables/disables automatic export if all players leave the server
-		ocap_endCaptureOnEndMission = _logic getVariable "EndCaptureOnEndMission";   // Enables/disables automatic export when the mission ends
-		ocap_debug = _logic getVariable "DebugMode";                                 // Enables/disables verbose debug logging
+		ocap_exportPath = _ocap_exportPath;                           				 // Absolute path the mission.data file will be exported to
+		ocap_captureDelay = _ocap_captureDelay;        				                 // Minimum delay between each capture, may be exceeded if number of entities is high or scheduler is overloaded
+		ocap_pauseCaptureOnNoPlayers = _ocap_pauseCaptureOnNoPlayers;                // Enables/disables automatic export if all players leave the server
+		ocap_endCaptureOnEndMission = _ocap_endCaptureOnEndMission;                  // Enables/disables automatic export when the mission ends
+		ocap_debug = _ocap_debug;                                                    // Enables/disables verbose debug logging
 		ocap_missionEHs = [];														 // List of all OCAP mission event handlers and their types to allow easy removal
 		ocap_eh_aceUnconscious = nil;												 // ACE3 unconscious CBA event handler id to allow easy removal
 		ocap_mainLoop = nil;														 // Script handle for OCAP main capture loop to allow terminating the loop
