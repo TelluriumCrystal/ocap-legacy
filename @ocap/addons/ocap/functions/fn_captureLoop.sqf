@@ -20,14 +20,14 @@
 */
 
 // Scroll wheel commands for testing
-if (ocap_debug) then {
-	player addAction ["Write saved data", {[] spawn ocap_fnc_exportData}];
-	player addAction ["End mission", {endMission "end1"}];
-	player addEventHandler ["Respawn", {
-		player addAction ["Write saved data", {[] spawn ocap_fnc_exportData}];
-		player addAction ["End mission", {endMission "end1"}];
-	}];
-};
+//if (ocap_debug) then {
+// 	player addAction ["Write saved data", {[] spawn ocap_fnc_exportData}];
+//	player addAction ["End mission", {endMission "end1"}];
+//	player addEventHandler ["Respawn", {
+//		player addAction ["Write saved data", {[] spawn ocap_fnc_exportData}];
+//		player addAction ["End mission", {endMission "end1"}];
+//	}];
+//};
 
 // Capture loop
 private _id = 0;                  // Next available OCAP entity ID. Increments as IDs are assigned to entities.
