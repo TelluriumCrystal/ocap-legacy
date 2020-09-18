@@ -19,7 +19,9 @@
 
     ==========================================================================================
 
-    Builds and exports a data file in a custom format to a remote directory.
+    Builds and exports a data file in a custom format to a remote directory. Uses a worker
+    thread for file I/O to minimize performance impact.
+
     Has 4 operating modes specified by the first character passed to the extension. Modes 1
     and 2 will create the temp file if it is not found. Modes 0, 1, and 2 will create the temp
     directory if it is not found.
@@ -42,31 +44,41 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace OCAPExporter
 {
+    // Public constants and variables class
+    public class Common
+    {
+        // Constants
+        public const string version = "0.7.0";
+        public const string logFilePath = "ocap_exporter.log";
+        public const string tempDirectory = @"Temp\";
+        public const string dataFileExtension = ".data";
+        public const string tempFilePath = tempDirectory + "temp" + dataFileExtension;
+
+        // Mutex lock and inter-thread queue
+        public static readonly object messageQueueLock = new object();
+        public static Queue<string> messageQueue = new Queue<string>();
+        public static bool threadSpawned = false;
+    }
+
+    // Arma 3 Extension Class (this is what Arma hooks into)
     public class Main
     {
-        const string version = "0.7.0";
-        const string logFilePath = "ocap_exporter.log";
-        const string tempDirectory = @"Temp\";
-        const string tempFilePath = tempDirectory + "temp.data";
-        const string dataFileExtension = ".data";
-        
 #if WIN64
         [DllExport("RVExtensionVersion", CallingConvention = CallingConvention.Winapi)]
 #else
         [DllExport("_RVExtensionVersion@8", CallingConvention = CallingConvention.Winapi)]
 #endif
+        // Function called by Arma 3 during startup that should return the version number of the extension
         public static void RvExtensionVersion(StringBuilder output, int outputSize)
         {
-            if (version.Length <= outputSize)
+            if (Common.version.Length <= outputSize)
             {
-                output.Append(version);
-            }
-            else
-            {
-                Log("Failed to return version to RvExtensionVersion, outputSize too small!");
+                output.Append(Common.version);
             }
         }
 
@@ -75,151 +87,209 @@ namespace OCAPExporter
 #else
         [DllExport("_RVExtension@12", CallingConvention = CallingConvention.Winapi)]
 #endif
+        // Function called by Arma 3 when extension is called in a script
         public static void RVExtension(StringBuilder output, int outputSize, [MarshalAs(UnmanagedType.LPStr)] string function)
         {
-            string input = function;
-
-            // Strip first char off input to get operating mode
-            int opMode = (int)char.GetNumericValue(input[0]);
-            input = input.Substring(1);
-
-            // Create temp directory if not already exists
-            if (!Directory.Exists(tempDirectory))
+            // Spawn worker thread if it hasn't already been spawned
+            if (!Common.threadSpawned)
             {
-                try
-                {
-                    Log("Temp directory not found, creating " + tempDirectory);
-                    Directory.CreateDirectory(tempDirectory);
-                }
-                catch (Exception e)
-                {
-                    Log(e.ToString());
-                    return;
-                }
+                Thread worker = new Thread(new ThreadStart(Worker.FileWriteWorker));
+                worker.Start();
+                Common.threadSpawned = true;
             }
 
-            switch (opMode)
+            // Add data to inter-thread message queue
+            lock (Common.messageQueueLock)
             {
-                // Delete temporary file
-                case 0:
-                    try
-                    {
-                        Log("Deleting temporary file");
-                        File.Delete(tempFilePath);
-                    }
-                    catch (Exception e)
-                    {
-                        Log(string.Format("Error: {0}", e.ToString()));
-                        return;
-                    }
-                    break;
+                Common.messageQueue.Enqueue(function);
+            }
+        }
+    }
 
-                // Write mission head line to file
-                case 1:
-                    string missionDateTime = DateTime.Now.ToString("dd/MM/yyyy H:mm:ss");
-                    input += missionDateTime;
+    // Class for worker threads
+    public class Worker
+    {
+        private static FileStream tempFileStream = null;
+        private static StreamWriter tempFileWriter = null;
+        private static FileStream logFileStream = new FileStream(Common.logFilePath, FileMode.Append);
+        private static StreamWriter logFileWriter = new StreamWriter(logFileStream, Encoding.UTF8);
+        public static void FileWriteWorker()
+        {
+            while (true)
+            {
+                string input = "";
 
-                    try
+                // Wait until there is something in the inter-thread message queue
+                while (input == "")
+                {
+                    lock (Common.messageQueueLock)
                     {
-                        // Create file if it doesn't exist
-                        if (!File.Exists(tempFilePath))
+                        if (Common.messageQueue.Count > 0)
                         {
-                            Log("Capture file doesn't exist. Creating file " + tempFilePath);
-                            File.Create(tempFilePath).Close();
+                            input = Common.messageQueue.Dequeue();
                         }
+                    }
+                }
 
-                        // Write to file
-                        File.AppendAllText(tempFilePath, input + Environment.NewLine);
+                // Strip first char off input to get operating mode
+                int opMode = (int)char.GetNumericValue(input[0]);
+                input = input.Substring(1);
+
+                // Create temp directory if not already exists
+                if (!Directory.Exists(Common.tempDirectory))
+                {
+                    try
+                    {
+                        Log("Temp directory not found, creating " + Common.tempDirectory);
+                        Directory.CreateDirectory(Common.tempDirectory);
                     }
                     catch (Exception e)
                     {
                         Log(e.ToString());
                         return;
                     }
-                    break;
+                }
 
-                // Write single line to file
-                case 2:
-                    try
-                    {
-                        // Create file if it doesn't exist
-                        if (!File.Exists(tempFilePath))
+                switch (opMode)
+                {
+                    // Delete temporary file
+                    case 0:
+                        try
                         {
-                            Log("Capture file doesn't exist. Creating file " + tempFilePath);
-                            File.Create(tempFilePath).Close();
+                            // Close stream if open
+                            if (tempFileWriter != null)
+                            {
+                                tempFileWriter.Flush();
+                                tempFileStream.Flush();
+                                tempFileWriter.Dispose();
+                                tempFileStream.Dispose();
+                                tempFileWriter = null;
+                                tempFileStream = null;
+                            }
+
+                            // Delete file
+                            Log("Deleting temporary file");
+                            File.Delete(Common.tempFilePath);
                         }
-
-                        // Write to file
-                        File.AppendAllText(tempFilePath, input + Environment.NewLine);
-                    }
-                    catch (Exception e)
-                    {
-                        Log(e.ToString());
-                        return;
-                    }
-                    break;
-
-                // Export temporary file to specified path
-                case 3:
-
-                    // Parse information from input
-                    string[] args = input.Split(';');
-                    string transferFilename = args[0];
-                    string transferDirectory = args[1];
-
-                    // Handle missing "/"
-                    if (transferDirectory[transferDirectory.Length - 1] != '\\' || transferDirectory[transferDirectory.Length - 1] != '/')
-                    {
-                        transferDirectory += '\\';
-                    }
-
-                    string transferFilePath = transferDirectory + transferFilename + dataFileExtension;
-
-                    try
-                    {
-
-                        // Check if temp file exists
-                        if (!File.Exists(tempFilePath))
+                        catch (Exception e)
                         {
-                            Log("Error: " + tempFilePath + " does not exist, unable to export data!");
+                            Log(string.Format("Error: {0}", e.ToString()));
                             return;
                         }
+                        break;
 
-                        // Check if data file with same name already exists at export directory
-                        if (File.Exists(transferFilePath))
+                    // Write mission head line to file
+                    case 1:
+                        string missionDateTime = DateTime.Now.ToString("dd/MM/yyyy H:mm:ss");
+                        input += missionDateTime;
+
+                        try
                         {
-                            Log(transferFilePath + " already exists!");
-
-                            // Keep incrementing a suffix number until an unused filename is found
-                            int suffix = 0;
-                            do
+                            // Create file stream if not open
+                            if (tempFileWriter == null)
                             {
-                                suffix++;
-                                transferFilePath = transferDirectory + transferFilename + "_" + suffix + dataFileExtension;
-                            } while (File.Exists(transferFilePath));
-                            Log("Will rename the file to " + Path.GetFileName(transferFilePath));
+                                tempFileStream = new FileStream(Common.tempFilePath, FileMode.Create);
+                                tempFileWriter = new StreamWriter(tempFileStream, Encoding.UTF8);
+                            }
+
+                            // Write to file
+                            tempFileWriter.WriteLine(input);
+                        }
+                        catch (Exception e)
+                        {
+                            Log(e.ToString());
+                            return;
+                        }
+                        break;
+
+                    // Write single line to file
+                    case 2:
+                        try
+                        {
+                            // Create file stream if not open
+                            if (tempFileWriter == null)
+                            {
+                                tempFileStream = new FileStream(Common.tempFilePath, FileMode.Create);
+                                tempFileWriter = new StreamWriter(tempFileStream, Encoding.UTF8);
+                            }
+
+                            // Write to file
+                            tempFileWriter.WriteLine(input);
+                        }
+                        catch (Exception e)
+                        {
+                            Log(e.ToString());
+                            return;
+                        }
+                        break;
+
+                    // Export temporary file to specified path
+                    case 3:
+
+                        // Parse information from input
+                        string[] args = input.Split(';');
+                        string transferFilename = args[0];
+                        string transferDirectory = args[1];
+
+                        // Handle missing "/"
+                        if (transferDirectory[transferDirectory.Length - 1] != '\\' || transferDirectory[transferDirectory.Length - 1] != '/')
+                        {
+                            transferDirectory += '\\';
                         }
 
-                        // Move file from temp directory to remote directory
-                        Log("Moving " + tempFilePath + " to " + transferFilePath);
-                        File.Move(tempFilePath, transferFilePath);
-                    }
-                    catch (Exception e)
-                    {
-                        Log(e.ToString());
-                    }
-                    break;
+                        string transferFilePath = transferDirectory + transferFilename + Common.dataFileExtension;
 
-                // All other opModes are erronous
-                default:
-                    Log(string.Format("Exporter passed invalid opMode {0}", opMode));
-                    break;
+                        try
+                        {
+
+                            // Close stream if open
+                            if (tempFileWriter != null)
+                            {
+                                tempFileWriter.Flush();
+                                tempFileStream.Flush();
+                                tempFileWriter.Dispose();
+                                tempFileStream.Dispose();
+                                tempFileWriter = null;
+                                tempFileStream = null;
+                            }
+
+                            // Check if data file with same name already exists at export directory
+                            if (File.Exists(transferFilePath))
+                            {
+                                Log(transferFilePath + " already exists!");
+
+                                // Keep incrementing a suffix number until an unused filename is found
+                                int suffix = 0;
+                                do
+                                {
+                                    suffix++;
+                                    transferFilePath = transferDirectory + transferFilename + "_" + suffix + Common.dataFileExtension;
+                                } while (File.Exists(transferFilePath));
+                                Log("Will rename the file to " + Path.GetFileName(transferFilePath));
+                            }
+
+                            // Move file from temp directory to remote directory
+                            Log("Moving " + Common.tempFilePath + " to " + transferFilePath);
+                            File.Move(Common.tempFilePath, transferFilePath);
+                        }
+                        catch (Exception e)
+                        {
+                            Log(e.ToString());
+                        }
+                        break;
+
+                    // All other opModes are erronous
+                    default:
+                        Log(string.Format("Exporter passed invalid opMode {0}", opMode));
+                        break;
+                }
             }
         }
 
-        public static void Log(string str)
+        private static void Log(string str)
         {
-            File.AppendAllText(logFilePath, DateTime.Now.ToString("dd/MM/yyyy H:mm:ss | ") + str + Environment.NewLine);
+            logFileWriter.WriteLine(DateTime.Now.ToString("dd/MM/yyyy H:mm:ss | ") + str);
+            logFileWriter.Flush();
             Console.WriteLine(str);
         }
     }
