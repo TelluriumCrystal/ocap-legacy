@@ -10,7 +10,7 @@
 	Note that this is a terminal function. OCAP must be reinitalized to resume capturing
 	data. Because it has to wait for the main loop to stop this function should be spawned.
 
-	Params:
+	Parameters:
 	None
 
 	Returns:
@@ -66,7 +66,7 @@ if (isNil {ocap_captureArray}) then {
 		["ace_unconscious", ocap_eh_aceUnconscious] call CBA_fnc_removeEventHandler;
 	};
 
-	// Uninstantiate all global variables
+	// Deallocate all global variables
 	ocap_version = nil;
 	ocap_ace3Present = nil;
 	ocap_enableCapture = nil;
