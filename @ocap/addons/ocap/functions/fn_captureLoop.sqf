@@ -57,105 +57,115 @@ while {true} do {
 	{   // forEach (allUnits + (entities "LandVehicle") + (entities "Ship") + (entities "Air"))
 
 		if (!(_x getVariable ["ocap_exclude", false])) then {
+		
+			private _excluded = false;	// Set true if this entity is excluded from OCAP during init to prevent position capture
 
 			// Setup entity if not initialised
 			if (!(_x getVariable ["ocap_isInitialised", false])) then {
+			
+				// Exclude game logic from capture
+				if (side _x == sideLogic) then {
+					_x setVariable ["ocap_exclude", true];
+					
+				} else {
+					// Enter atomic block
+					isNil {
 
-				// Enter atomic block
-				isNil {
-
-					// Get entity info
-					private _timestamp = time;
-					private _entityId = _id;
-					_id = _id + 1;
-					private _entityType = 0; // 0 = AI, 1 = Player, 2 = Vehicle
-					if (!(_x isKindOf "CAManBase")) then {
-						_entityType = 2;
-					} else {
-						if (isPlayer _x) then {
-							_entityType = 1;
-						};
-					};
-					private _entityName = "";
-					if (_entityType == 0 or _entityType == 1) then {
-						_entityName = name _x;
-					} else {
-						_entityName = getText (configFile >> "CfgVehicles" >> typeOf _x >> "displayName");
-					};
-					private _entityGroup = "";
-					if (!isNull group _x) then {
-						_entityGroup = groupID (group _x);
-					};
-					private _entitySide = (side _x) call BIS_fnc_sideID;
-					private _vehicleType = "";
-					if (_entityType == 2) then {
-						_vehicleType = typeOf _x;
-					};
-
-					// Build capture string and append to capture array
-					private _captureString = format ["3;%1;%2;%3;%4;%5;%6;%7", _timestamp, _entityId, _entityType, _entityName, _entityGroup, _entitySide, _vehicleType];
-					ocap_captureArray pushBack _captureString;
-
-					// Set entity variables and add event handlers
-					_x setVariable ["ocap_isInitialised", true];
-					_x setVariable ["ocap_exclude", false];
-					_x setVariable ["ocap_id", _entityId];
-					_x call ocap_fnc_addEventHandlers;
-
-					// Handle case where units are already in a vehicle (do this in the vehicle init because vehicles should be initalized after units)
-					if (_entityType == 2) then {
-
-						{	// forEach (crew _x)
-							if (_x getVariable ["ocap_isInitialised", false]) then {
-
-								// Build enter vehicle capture string and append to capture array
-								private _crewId = _x getVariable "ocap_id";
-								private _captureString = format ["5;%1;%2;%3;1", _timestamp, _crewId, _entityId];
-								ocap_captureArray pushBack _captureString;
-
-								// Debug message
-								if (ocap_debug) then {
-									systemChat format["OCAP: [%1] %2 (%3) got in %4 (%5)", _timestamp, name _x, _crewId, _entityName, _entityId];
-									diag_log format["OCAP: [%1] %2 (%3) got in %4 (%5)", _timestamp, name _x, _crewId, _entityName, _entityId];
-								};
+						// Get entity info
+						private _timestamp = time;
+						private _entityId = _id;
+						_id = _id + 1;
+						private _entityType = 0; // 0 = AI, 1 = Player, 2 = Vehicle
+						if (!(_x isKindOf "CAManBase")) then {
+							_entityType = 2;
+						} else {
+							if (isPlayer _x) then {
+								_entityType = 1;
 							};
-						} forEach (crew _x);
-					};
+						};
+						private _entityName = "";
+						if (_entityType == 0 or _entityType == 1) then {
+							_entityName = name _x;
+						} else {
+							_entityName = getText (configFile >> "CfgVehicles" >> typeOf _x >> "displayName");
+						};
+						private _entityGroup = "";
+						if (!isNull group _x) then {
+							_entityGroup = groupID (group _x);
+						};
+						private _entitySide = (side _x) call BIS_fnc_sideID;
+						private _vehicleType = "";
+						if (_entityType == 2) then {
+							_vehicleType = typeOf _x;
+						};
 
-					// Debug message
-					if (ocap_debug) then {
-						systemChat format["OCAP: [%1] Initalized %2 (%3) in %4 on %5 side", _timestamp, _entityName, _entityId, _entityGroup, _entitySide call BIS_fnc_sideType];
-						diag_log format["OCAP: [%1] Initalized %2 (%3) in %4 on %5 side", _timestamp, _entityName, _entityId, _entityGroup, _entitySide call BIS_fnc_sideType];
+						// Build capture string and append to capture array
+						private _captureString = format ["3;%1;%2;%3;%4;%5;%6;%7", _timestamp, _entityId, _entityType, _entityName, _entityGroup, _entitySide, _vehicleType];
+						ocap_captureArray pushBack _captureString;
+
+						// Set entity variables and add event handlers
+						_x setVariable ["ocap_isInitialised", true];
+						_x setVariable ["ocap_exclude", false];
+						_x setVariable ["ocap_id", _entityId];
+						_x call ocap_fnc_addEventHandlers;
+
+						// Handle case where units are already in a vehicle (do this in the vehicle init because vehicles should be initalized after units)
+						if (_entityType == 2) then {
+
+							{	// forEach (crew _x)
+								if (_x getVariable ["ocap_isInitialised", false]) then {
+
+									// Build enter vehicle capture string and append to capture array
+									private _crewId = _x getVariable "ocap_id";
+									private _captureString = format ["5;%1;%2;%3;1", _timestamp, _crewId, _entityId];
+									ocap_captureArray pushBack _captureString;
+
+									// Debug message
+									if (ocap_debug) then {
+										systemChat format["OCAP: [%1] %2 (%3) got in %4 (%5)", _timestamp, name _x, _crewId, _entityName, _entityId];
+										diag_log format["OCAP: [%1] %2 (%3) got in %4 (%5)", _timestamp, name _x, _crewId, _entityName, _entityId];
+									};
+								};
+							} forEach (crew _x);
+						};
+
+						// Debug message
+						if (ocap_debug) then {
+							systemChat format["OCAP: [%1] Initalized %2 (%3) in %4 on %5 side", _timestamp, _entityName, _entityId, _entityGroup, _entitySide call BIS_fnc_sideType];
+							diag_log format["OCAP: [%1] Initalized %2 (%3) in %4 on %5 side", _timestamp, _entityName, _entityId, _entityGroup, _entitySide call BIS_fnc_sideType];
+						};
 					};
 				};
 			};
 
-			// Grab entity position and add to capture array
-			// Enter atomic block
-			isNil {
-				private _timestamp = time;
-				private _entityId = _x getVariable "ocap_id";
-				private _entityRawASL = getPosASL _x;
-				private _entityRawATL = getPosATL _x;
-				private _entityPosX = _entityRawASL select 0;
-				private _entityPosY = _entityRawASL select 1;
-				private _entityElevASL = _entityRawASL select 2;
-				private _entityElevAGL = _entityRawATL select 2;
-				private _entityAzimuth = getDir _x;
+			// Grab entity position and add to capture array if entity wasn't excluded in init
+			if (!_excluded) then {
+				// Enter atomic block
+				isNil {
+					private _timestamp = time;
+					private _entityId = _x getVariable "ocap_id";
+					private _entityRawASL = getPosASL _x;
+					private _entityRawATL = getPosATL _x;
+					private _entityPosX = _entityRawASL select 0;
+					private _entityPosY = _entityRawASL select 1;
+					private _entityElevASL = _entityRawASL select 2;
+					private _entityElevAGL = _entityRawATL select 2;
+					private _entityAzimuth = getDir _x;
 
-				// Build capture string and append to capture array
-				private _captureString = format ["4;%1;%2;%3;%4;%5;%6;%7", _timestamp, _entityId, _entityPosX, _entityPosY, _entityAzimuth, _entityElevASL, _entityElevAGL];
-				ocap_captureArray pushBack _captureString;
+					// Build capture string and append to capture array
+					private _captureString = format ["4;%1;%2;%3;%4;%5;%6;%7", _timestamp, _entityId, _entityPosX, _entityPosY, _entityAzimuth, _entityElevASL, _entityElevAGL];
+					ocap_captureArray pushBack _captureString;
 
-				// Debug message
-				if (ocap_debug) then {
-					private _entityName = "";
-					if (_x isKindOf "CAManBase") then {
-						_entityName = name _x;
-					} else {
-						_entityName = getText (configFile >> "CfgVehicles" >> typeOf _x >> "displayName");
+					// Debug message
+					if (ocap_debug) then {
+						private _entityName = "";
+						if (_x isKindOf "CAManBase") then {
+							_entityName = name _x;
+						} else {
+							_entityName = getText (configFile >> "CfgVehicles" >> typeOf _x >> "displayName");
+						};
+						diag_log format["OCAP: [%1] %2 (%3) is at [%4,%5] %6 ASL (%7 AGL) pointing at %8", _timestamp, _entityName, _entityId, _entityPosX, _entityPosY, _entityElevASL, _entityElevAGL, _entityAzimuth];
 					};
-					diag_log format["OCAP: [%1] %2 (%3) is at [%4,%5] %6 ASL (%7 AGL) pointing at %8", _timestamp, _entityName, _entityId, _entityPosX, _entityPosY, _entityElevASL, _entityElevAGL, _entityAzimuth];
 				};
 			};
 		};
