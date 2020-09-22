@@ -28,7 +28,7 @@ if (ocap_enableCapture) then {
 	// Check if entity exists, is initiliased with OCAP, and isn't marked as excluded from capture
 	if (!isNull _unit and _unit getVariable ["ocap_isInitialised", false] and !(_unit getVariable ["ocap_exclude", false])) then {
 
-		_entityId = _unit getVariable ["ocap_id"];
+		_entityId = _unit getVariable "ocap_id";
 	};
 
 	// Build capture string
