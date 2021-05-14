@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="cc_mono_icon_set\inuse\folder_open_icon&amp;16.png" />
+    <None Remove="cc_mono_icon_set\inuse\folder_open_icon&amp;24.png" />
+    <None Remove="cc_mono_icon_set\inuse\folder_open_icon&amp;32.png" />
+    <None Remove="cc_mono_icon_set\inuse\folder_open_icon&amp;48.png" />
+    <None Remove="cc_mono_icon_set\inuse\folder_open_icon48.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_ff_icon&amp;16.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_ff_icon&amp;24.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_ff_icon&amp;32.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_ff_icon&amp;48.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_ff_icon48.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_next_icon&amp;16.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_next_icon&amp;24.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_next_icon&amp;32.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_next_icon&amp;48.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_next_icon48.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_pause_icon&amp;16.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_pause_icon&amp;24.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_pause_icon&amp;32.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_pause_icon&amp;48.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_pause_icon48.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_play_icon&amp;16.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_play_icon&amp;24.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_play_icon&amp;32.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_play_icon&amp;48.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_play_icon48.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_prev_icon&amp;16.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_prev_icon&amp;24.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_prev_icon&amp;32.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_prev_icon&amp;48.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_prev_icon48.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_rew_icon&amp;16.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_rew_icon&amp;24.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_rew_icon&amp;32.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_rew_icon&amp;48.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_rew_icon48.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_stop_icon&amp;16.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_stop_icon&amp;24.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_stop_icon&amp;32.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_stop_icon&amp;48.png" />
+    <None Remove="cc_mono_icon_set\inuse\playback_stop_icon48.png" />
+    <None Remove="cc_mono_icon_set\inuse\rewind_previous_icon&amp;16.png" />
+    <None Remove="cc_mono_icon_set\inuse\rewind_previous_icon&amp;24.png" />
+    <None Remove="cc_mono_icon_set\inuse\rewind_previous_icon&amp;32.png" />
+    <None Remove="cc_mono_icon_set\inuse\rewind_previous_icon&amp;48.png" />
+    <None Remove="cc_mono_icon_set\inuse\rewind_previous_icon48.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="cc_mono_icon_set\inuse\folder_open_icon48.png" />
+    <Resource Include="cc_mono_icon_set\inuse\playback_ff_icon48.png" />
+    <Resource Include="cc_mono_icon_set\inuse\playback_next_icon48.png" />
+    <Resource Include="cc_mono_icon_set\inuse\playback_pause_icon48.png" />
+    <Resource Include="cc_mono_icon_set\inuse\playback_play_icon48.png" />
+    <Resource Include="cc_mono_icon_set\inuse\playback_prev_icon48.png" />
+    <Resource Include="cc_mono_icon_set\inuse\playback_rew_icon48.png" />
+    <Resource Include="cc_mono_icon_set\inuse\playback_stop_icon48.png" />
+    <Resource Include="cc_mono_icon_set\inuse\rewind_previous_icon48.png" />
+  </ItemGroup>
+
+</Project>
